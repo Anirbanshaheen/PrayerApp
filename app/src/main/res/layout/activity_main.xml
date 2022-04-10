@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/juhor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Hello World!"
+        app:layout_constraintStart_toStartOf="@+id/fazor"
+        app:layout_constraintTop_toBottomOf="@+id/fazor" />
+
+    <TextView
+        android:id="@+id/fazor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="1dp"
+        android:text="Hello World!"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textViewFazor" />
+
+    <TextView
+        android:id="@+id/esha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Hello World!"
+        app:layout_constraintStart_toStartOf="@+id/magrib"
+        app:layout_constraintTop_toBottomOf="@+id/magrib" />
+
+    <TextView
+        android:id="@+id/asor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="22dp"
+        android:text="Hello World!"
+        app:layout_constraintStart_toStartOf="@+id/juhor"
+        app:layout_constraintTop_toBottomOf="@+id/juhor" />
+
+    <TextView
+        android:id="@+id/sunrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hello World!"
+        app:layout_constraintBaseline_toBaselineOf="@+id/textViewSunrise"
+        app:layout_constraintStart_toStartOf="@+id/esha" />
+
+    <TextView
+        android:id="@+id/magrib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Hello World!"
+        app:layout_constraintStart_toStartOf="@+id/asor"
+        app:layout_constraintTop_toBottomOf="@+id/asor" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="27dp"
+        android:layout_marginTop="50dp"
+        android:text="Button"
+        app:layout_constraintStart_toStartOf="@+id/textViewSunrise"
+        app:layout_constraintTop_toBottomOf="@+id/textViewSunrise" />
+
+    <TextView
+        android:id="@+id/textViewFazor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="43dp"
+        android:layout_marginBottom="58dp"
+        android:text="Fazor"
+        app:layout_constraintBottom_toTopOf="@+id/textViewAsor"
+        app:layout_constraintEnd_toStartOf="@+id/fazor" />
+
+    <TextView
+        android:id="@+id/textViewJuhor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:text="Juhor"
+        app:layout_constraintStart_toStartOf="@+id/textViewFazor"
+        app:layout_constraintTop_toBottomOf="@+id/textViewFazor" />
+
+    <TextView
+        android:id="@+id/textViewAsor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="174dp"
+        android:layout_marginEnd="9dp"
+        android:text="Asor"
+        app:layout_constraintEnd_toEndOf="@+id/textViewJuhor"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewMagrib"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="23dp"
+        android:text="Magrib"
+        app:layout_constraintStart_toStartOf="@+id/textViewAsor"
+        app:layout_constraintTop_toBottomOf="@+id/textViewAsor" />
+
+    <TextView
+        android:id="@+id/textViewEsha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="19dp"
+        android:text="Esha"
+        app:layout_constraintStart_toStartOf="@+id/textViewMagrib"
+        app:layout_constraintTop_toBottomOf="@+id/textViewMagrib" />
+
+    <TextView
+        android:id="@+id/textViewSunrise"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="23dp"
+        android:text="Sunrise"
+        app:layout_constraintStart_toStartOf="@+id/textViewEsha"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEsha" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="permission"
+        app:layout_constraintEnd_toEndOf="@+id/button"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/button"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
