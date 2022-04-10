@@ -65,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        val magrib: TextView = findViewById(R.id.magrib)
+
         val esha: TextView = findViewById(R.id.esha)
         val sunrise: TextView = findViewById(R.id.sunrise)*/
 
