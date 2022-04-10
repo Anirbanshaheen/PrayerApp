@@ -63,9 +63,8 @@ class MainActivity : AppCompatActivity() {
 
         val prayerTimes = PrayerTimes(coordinates, dateComponents, parameters)
 
-        val fazor: TextView = findViewById(R.id.fazor)
-        val juhor: TextView = findViewById(R.id.juhor)
-        val asor: TextView = findViewById(R.id.asor)
+
+
         val magrib: TextView = findViewById(R.id.magrib)
         val esha: TextView = findViewById(R.id.esha)
         val sunrise: TextView = findViewById(R.id.sunrise)*/
