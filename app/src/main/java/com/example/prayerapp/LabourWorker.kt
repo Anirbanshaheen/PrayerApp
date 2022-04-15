@@ -18,13 +18,15 @@ import java.util.*
 class LabourWorker(private val context: Context, private val workerParams: WorkerParameters) :
     Worker(context, workerParams) {
 
+    var tempTime2 = "03:16 PM"
+    var tempTime1 = "03:14 PM"
+
     override fun doWork(): Result {
-        something(context)
+        mainOperation(context)
         return Result.success()
     }
 
-
-    private fun something(context: Context) {
+    private fun mainOperation(context: Context) {
         val coordinates = Coordinates(23.8103, 90.4125)
         val dateComponents = DateComponents.from(Date())
         val parameters = CalculationMethod.KARACHI.parameters
@@ -35,11 +37,10 @@ class LabourWorker(private val context: Context, private val workerParams: Worke
         val localCurrentDateTime = formatter.format(Calendar.getInstance().time)
         var prayerTimes = PrayerTimes(coordinates, dateComponents, parameters)
 //        var temp = prayerTimes.dhuhr
-        var tempTime2 = "11:00 AM"
-        var tempTime1 = "10:24 AM"
+
         if (tempTime1 == localCurrentDateTime) {
             internalTimeCheck()
-            extendTime()
+//            extendTime()
             val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
             audioManager.ringerMode = AudioManager.RINGER_MODE_SILENT
             /*var notificationManager =
@@ -52,17 +53,24 @@ class LabourWorker(private val context: Context, private val workerParams: Worke
                     )
                 )
             }*/
-            Log.d("WWorkManager", "YES")
+            Log.d("WorkManager", "YES $localCurrentDateTime")
         } else {
-            Log.d("WWorkManager", "NO")
+            Log.d("WorkManager", "NO")
         }
     }
 
     private fun internalTimeCheck() {
         Handler(Looper.getMainLooper()).postDelayed({
-            var startTime = System.currentTimeMillis()
-            
+//            var startTime = System.currentTimeMillis().toString()
 
+            val formatter = SimpleDateFormat("hh:mm a", Locale.US)
+            val localCurrentDateTime = formatter.format(Calendar.getInstance().time)
+
+            if(localCurrentDateTime == tempTime2){
+                val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+                audioManager.ringerMode = AudioManager.RINGER_MODE_SILENT
+                Log.d("WorkManager", "YESSSSS")
+            }
         }, 900000)
     }
 

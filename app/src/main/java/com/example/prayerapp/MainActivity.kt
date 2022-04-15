@@ -30,29 +30,7 @@ class MainActivity : AppCompatActivity() {
         val bt: Button = findViewById(R.id.button)
         val btP: Button = findViewById(R.id.button2)
         checking()
-//        workingMachine()
-        /*val request = PeriodicWorkRequestBuilder<LabourWorker>(15, TimeUnit.MINUTES).build()
-
-        *//*val request = OneTimeWorkRequestBuilder<LabourWorker>()
-            .build()*//*
-        val bt: Button = findViewById(R.id.button)
-        val requestUUID = request.id
-        val workManager = WorkManager.getInstance(this)
-        workManager.enqueueUniquePeriodicWork("Getdata", ExistingPeriodicWorkPolicy.KEEP, request)*/
-
-//        workManager.beginWith("do",ExistingPeriodicWorkPolicy.REPLACE, request)
-//        workManager.beginUniqueWork("do", ExistingWorkPolicy.REPLACE, request).enqueue()
-        /*workManager.getWorkInfoByIdLiveData(requestUUID).observe(this, Observer {workInfo->
-            if (workInfo != null){
-                val result = workInfo.outputData.getString("work_result")
-                if (workInfo.state == WorkInfo.State.SUCCEEDED) {
-                    Toast.makeText(this, "Successfully success $result", Toast.LENGTH_SHORT).show()
-                } else if (workInfo.state == WorkInfo.State.FAILED) {
-                    Toast.makeText(this, "Failed $result", Toast.LENGTH_SHORT).show()
-                }
-
-            }
-        })*/
+        workingMachine()
 
         /*val coordinates = Coordinates(23.8103, 90.4125)
         val dateComponents = DateComponents.from(Date())
@@ -60,11 +38,7 @@ class MainActivity : AppCompatActivity() {
         parameters.madhab = Madhab.HANAFI
 
         val formatter = SimpleDateFormat("hh:mm a")
-
         val prayerTimes = PrayerTimes(coordinates, dateComponents, parameters)
-
-
-
 
         val esha: TextView = findViewById(R.id.esha)
         val sunrise: TextView = findViewById(R.id.sunrise)*/
@@ -74,9 +48,9 @@ class MainActivity : AppCompatActivity() {
             checkPermission(ACCESS_NOTIFICATION_POLICY, 2)
         }
 
-        bt.setOnClickListener {
-            workingMachine()
-        }
+//        bt.setOnClickListener {
+//            workingMachine()
+//        }
     }
 
     private fun checking() {
