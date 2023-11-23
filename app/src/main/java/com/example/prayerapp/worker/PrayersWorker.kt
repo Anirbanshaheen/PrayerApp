@@ -65,7 +65,7 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
         val intent = Intent(context, PrayersAlertReceiver::class.java)
         intent.putExtra("NAME", name)
         intent.putExtra("ID", id)
-        intent.putExtra("DELAY_TIME", (60000 * 1))
+        intent.putExtra("DELAY_TIME", (60000 * 2))
 
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
@@ -116,37 +116,37 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
             PrayersTime(
                 1,
                 "Fajr Time",
-                2,
-                30
-//                prayerTimes.fajr().hour,
-//                prayerTimes.fajr().minute
+//                15,
+//                10
+                prayerTimes.fajr().hour,
+                prayerTimes.fajr().minute
             ),
             PrayersTime(
                 2,
                 "Dhuhr Time",
-                2,
-                57
-//                prayerTimes.thuhr().hour,
-//                prayerTimes.thuhr().minute
+//                15,
+//                26
+                prayerTimes.thuhr().hour,
+                prayerTimes.thuhr().minute
             ),
-//            PrayersTime(
-//                3,
-//                "Asr Time",
-//                prayerTimes.assr().hour,
-//                prayerTimes.assr().minute
-//            ),
-//            PrayersTime(
-//                4,
-//                "Maghrib Time",
-//                prayerTimes.maghrib().hour,
-//                prayerTimes.maghrib().minute
-//            ),
-//            PrayersTime(
-//                5,
-//                "Isha Time",
-//                prayerTimes.ishaa().hour,
-//                prayerTimes.ishaa().minute
-//            )
+            PrayersTime(
+                3,
+                "Asr Time",
+                prayerTimes.assr().hour,
+                prayerTimes.assr().minute
+            ),
+            PrayersTime(
+                4,
+                "Maghrib Time",
+                prayerTimes.maghrib().hour,
+                prayerTimes.maghrib().minute
+            ),
+            PrayersTime(
+                5,
+                "Isha Time",
+                prayerTimes.ishaa().hour,
+                prayerTimes.ishaa().minute
+            )
         )
         return@runBlocking prayerTimeList
     }

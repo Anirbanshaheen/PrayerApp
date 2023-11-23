@@ -15,7 +15,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import androidx.core.app.NotificationCompat
-import com.example.prayerapp.MainActivity
+import com.example.prayerapp.ui.MainActivity
 import com.example.prayerapp.R
 
 class PrayersAlertReceiver : BroadcastReceiver() {
