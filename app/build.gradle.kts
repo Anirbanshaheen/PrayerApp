@@ -52,7 +52,7 @@ dependencies {
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
 
     // Work-Manager
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
@@ -61,12 +61,15 @@ dependencies {
     // Prayers Time
     implementation("com.github.ahmedeltaher:Azan:3.0.0")
 
+    // Dynamic Color change
+    implementation("androidx.palette:palette-ktx:1.0.0")
+
     // Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.48")
 
     //viewModels & activity
     implementation("androidx.fragment:fragment-ktx:1.6.2")
-    implementation("androidx.activity:activity-ktx:1.8.0")
+    implementation("androidx.activity:activity-ktx:1.8.1")
 
     // ViewModel & lifeCycleScope
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")

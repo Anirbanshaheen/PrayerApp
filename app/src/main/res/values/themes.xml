@@ -6,4 +6,9 @@
     </style>
 
     <style name="Theme.PrayerApp" parent="Base.Theme.PrayerApp" />
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize" parent="">
+        <item name="cornerSizeBottomLeft">15dp</item>
+        <item name="cornerSizeBottomRight">15dp</item>
+    </style>
 </resources>

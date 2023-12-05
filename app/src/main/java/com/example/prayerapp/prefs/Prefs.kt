@@ -19,5 +19,21 @@ class Prefs @Inject constructor(@ApplicationContext private val context: Context
             instance.edit().putBoolean(::isOneTimeAlert.name, value).apply()
         }
 
+    var counterValue: Int
+        get() {
+            return instance.getInt(::counterValue.name, 0)
+        }
+        set(value) {
+            instance.edit().putInt(::counterValue.name, value).apply()
+        }
+
+    var prayerBg: Int?
+        get() {
+            return instance.getInt(::prayerBg.name, 0)
+        }
+        set(value) {
+            instance.edit().putInt(::prayerBg.name, value?:0).apply()
+        }
+
 
 }
