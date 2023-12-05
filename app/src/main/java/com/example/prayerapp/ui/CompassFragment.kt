@@ -3,6 +3,7 @@ package com.example.prayerapp.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
@@ -40,7 +41,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
 @AndroidEntryPoint
 class CompassFragment : Fragment(), SensorEventListener {
 
@@ -51,11 +51,9 @@ class CompassFragment : Fragment(), SensorEventListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val PERMISSION_ID = 42
 
-    private val scope = CoroutineScope(Dispatchers.Default)
-
     private lateinit var currentLocation: Location
-    private lateinit var sensorManager: SensorManager
-    private lateinit var sensor: Sensor
+    private var sensorManager: SensorManager? = null
+    private var sensor: Sensor? = null
     private var currentDegree = 0f
     private var currentDegreeNeedle = 0f
 
@@ -70,13 +68,14 @@ class CompassFragment : Fragment(), SensorEventListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        getLocationTest()
         init()
         observer()
     }
 
 
     private fun init() {
+        enableLocation()
+        getLocationTest()
         binding.testBtn.setOnClickListener {
             //getLocationTest()
         }
@@ -102,6 +101,36 @@ class CompassFragment : Fragment(), SensorEventListener {
         }
     }
 
+    private fun enableLocation() {
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 0).apply {
+            setMinUpdateDistanceMeters(1f)
+            setWaitForAccurateLocation(true)
+        }.build()
+
+        val builder = LocationSettingsRequest.Builder()
+            .addLocationRequest(locationRequest)
+
+        LocationServices.getSettingsClient(requireActivity())
+            .checkLocationSettings(builder.build())
+            .addOnSuccessListener { response ->
+
+                // Location settings are satisfied, start updating location
+                // startUpdatingLocation(...)
+            }
+            .addOnFailureListener { ex ->
+                if (ex is ResolvableApiException) {
+                    // Location settings are NOT satisfied, but this can be fixed by showing the user a dialog.
+                    try {
+                        // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
+                        val resolvable = ex as ResolvableApiException
+                        resolvable.startResolutionForResult(requireActivity(), 11)
+                    } catch (sendEx: IntentSender.SendIntentException) {
+                        // Ignore the error.
+                    }
+                }
+            }
+    }
+
     @SuppressLint("MissingPermission")
     private fun getLocationTest() {
         if (checkPermissions()) {
@@ -124,10 +153,12 @@ class CompassFragment : Fragment(), SensorEventListener {
                 fusedLocationClient.getCurrentLocation(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(requireActivity()) { location ->
                     location.result?.let {
                         currentLocation = location.result
-                        compassViewModel.getLocationAddress(requireActivity(), currentLocation)
-                        sensorManager = requireActivity().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
-                        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION)!!
-                        sensorManager.registerListener(
+                        kotlin.runCatching { compassViewModel.getLocationAddress(requireContext(), currentLocation) }
+                        kotlin.runCatching { sensorManager = requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
+                        if (sensorManager == null) return@addOnCompleteListener
+                        sensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION) ?: sensor
+                        if (sensor == null) return@addOnCompleteListener
+                        sensorManager?.registerListener(
                             this, sensor, SensorManager.SENSOR_DELAY_GAME
                         )
                         Log.d("wow","$currentLocation")
@@ -194,6 +225,6 @@ class CompassFragment : Fragment(), SensorEventListener {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        exH { sensorManager.unregisterListener(this) }
+        exH { sensorManager?.unregisterListener(this) }
     }
 }

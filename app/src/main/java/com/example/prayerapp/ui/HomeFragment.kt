@@ -1,26 +1,23 @@
 package com.example.prayerapp.ui
 
 import android.Manifest
-import android.app.Activity
-import android.app.AlarmManager
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.core.graphics.drawable.toBitmap
+import androidx.fragment.app.Fragment
+import androidx.palette.graphics.Palette
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
 import androidx.work.Data
@@ -37,15 +34,11 @@ import com.azan.astrologicalCalc.SimpleDate
 import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentHomeBinding
 import com.example.prayerapp.prefs.Prefs
+import com.example.prayerapp.utils.changeStatusBarColor
 import com.example.prayerapp.utils.twentyFourTo12HourConverter
-import com.example.prayerapp.viewmodel.PrayerViewModel
 import com.example.prayerapp.worker.PrayersWorker
-import com.google.android.gms.common.api.ResolvableApiException
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.Priority
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.Calendar
 import java.util.GregorianCalendar
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
@@ -54,8 +47,6 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
-    private val prayersViewModel by activityViewModels<PrayerViewModel>()
-    private lateinit var alarmManager: AlarmManager
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest
     private val WORKER_TAG = "PRAYERS_WORKER"
@@ -75,6 +66,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
+        prefs = Prefs(requireContext())
         return binding.root
     }
 
@@ -83,70 +75,15 @@ class HomeFragment : Fragment() {
 
         initialize()
         dailyOneTimeRunWorkerTrigger()
-        clickListeners()
-    }
-
-    private fun clickListeners() {
-
     }
 
     private fun initialize() {
-        setSilentModePolicy()
+        setDNDModePolicy()
         checkPermission()
-        enableLocation()
         showTime()
     }
 
-    private fun enableLocation() {
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 0).apply {
-            setMinUpdateDistanceMeters(1f)
-            setWaitForAccurateLocation(true)
-        }.build()
-
-//        val locationRequest = LocationRequest.create()
-//            .setInterval(0)
-//            .setFastestInterval(0)
-//            .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-
-        LocationServices.getSettingsClient(requireActivity())
-            .checkLocationSettings(builder.build())
-            .addOnSuccessListener { response ->
-
-                // Location settings are satisfied, start updating location
-                // startUpdatingLocation(...)
-            }
-            .addOnFailureListener { ex ->
-                if (ex is ResolvableApiException) {
-                    // Location settings are NOT satisfied, but this can be fixed by showing the user a dialog.
-                    try {
-                        // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
-                        val resolvable = ex as ResolvableApiException
-                        resolvable.startResolutionForResult(requireActivity(), 11)
-                    } catch (sendEx: IntentSender.SendIntentException) {
-                        // Ignore the error.
-                    }
-                }
-            }
-    }
-
-//    override fun onActivityResult(
-//        requestCode: Int,
-//        resultCode: Int,
-//        data: Intent?
-//    ) {
-//        if (11 === requestCode) {
-//            if (Activity.RESULT_OK == resultCode) {
-//                //user clicked OK, you can startUpdatingLocation(...);
-//            } else {
-//                //user clicked cancel: informUserImportanceOfLocationAndPresentRequestAgain();
-//            }
-//        }
-//    }
-
-    private fun setSilentModePolicy() {
+    private fun setDNDModePolicy() {
         val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (!notificationManager.isNotificationPolicyAccessGranted) {
             val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
@@ -173,6 +110,49 @@ class HomeFragment : Fragment() {
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
 
+        val fajrTimeInMilliseconds = timeToMilliSecond(prayerTimes.fajr().hour, prayerTimes.fajr().minute)
+        val juhorTimeInMilliseconds = timeToMilliSecond(prayerTimes.thuhr().hour, prayerTimes.thuhr().minute)
+        val asorTimeInMilliseconds = timeToMilliSecond(prayerTimes.assr().hour, prayerTimes.assr().minute)
+        val magribTimeInMilliseconds = timeToMilliSecond(prayerTimes.maghrib().hour, prayerTimes.maghrib().minute)
+        val ishaTimeInMilliseconds = timeToMilliSecond(prayerTimes.ishaa().hour, prayerTimes.ishaa().minute)
+
+        if (System.currentTimeMillis() in ((fajrTimeInMilliseconds + (30 * 60000)) + 1)..(juhorTimeInMilliseconds + (3 * 3600000))) {
+            binding.prayerBgIV.setImageResource(R.drawable.juhor)
+            binding.prayerNameTV.text = "Juhor Namaz"
+            binding.prayerTimeTV.text = prayerTimes.thuhr().twentyFourTo12HourConverter()
+            binding.johorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.johorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
+            backgroundScreenGradient(R.drawable.juhor)
+        }else if (System.currentTimeMillis() in ((juhorTimeInMilliseconds + (3 * 3600000)) + 1)..(asorTimeInMilliseconds + 3600000)) {
+            binding.prayerBgIV.setImageResource(R.drawable.asor)
+            binding.prayerNameTV.text = "Asor Namaz"
+            binding.prayerTimeTV.text = prayerTimes.assr().twentyFourTo12HourConverter()
+            binding.asorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.asorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
+            backgroundScreenGradient(R.drawable.asor)
+        }else if (System.currentTimeMillis() in ((asorTimeInMilliseconds + 3600000) + 1)..(magribTimeInMilliseconds + (20 * 60000))) {
+            binding.prayerBgIV.setImageResource(R.drawable.magrib)
+            binding.prayerNameTV.text = "Magrib Namaz"
+            binding.prayerTimeTV.text = prayerTimes.maghrib().twentyFourTo12HourConverter()
+            binding.magribCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.magribCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
+            backgroundScreenGradient(R.drawable.magrib)
+        }else if (System.currentTimeMillis() in ((magribTimeInMilliseconds + (20 * 60000)) + 1)..(ishaTimeInMilliseconds + (5 * 3600000))) {
+            binding.prayerBgIV.setImageResource(R.drawable.isha)
+            binding.prayerNameTV.text = "Isha Namaz"
+            binding.prayerTimeTV.text = prayerTimes.ishaa().twentyFourTo12HourConverter()
+            binding.eshaCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.eshaCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
+            backgroundScreenGradient(R.drawable.isha)
+        }else if (System.currentTimeMillis() in ((ishaTimeInMilliseconds + (10 * 3600000)) + 1)..(fajrTimeInMilliseconds + (30 * 60000))) {
+            binding.prayerBgIV.setImageResource(R.drawable.fazor)
+            binding.prayerNameTV.text = "Fazor Namaz"
+            binding.prayerTimeTV.text = prayerTimes.fajr().twentyFourTo12HourConverter()
+            binding.fazorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.fazorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
+            backgroundScreenGradient(R.drawable.fazor)
+        }
+
         binding.fazorTimeTV.text = prayerTimes.fajr().twentyFourTo12HourConverter()
         binding.juhorTimeTV.text = prayerTimes.thuhr().twentyFourTo12HourConverter()
         binding.asorTimeTV.text = prayerTimes.assr().twentyFourTo12HourConverter()
@@ -180,7 +160,87 @@ class HomeFragment : Fragment() {
         binding.eshaTimeTV.text = prayerTimes.ishaa().twentyFourTo12HourConverter()
     }
 
+    fun timeToMilliSecond(hours: Int, minutes: Int): Long {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, hours)
+        calendar.set(Calendar.MINUTE, minutes)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+
+        return calendar.timeInMillis
+    }
+
+//    fun isTimeInBetween(timeToCheck: Long, startTime: Long, endTime: Long): Boolean {
+//        val dateFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+//
+//        try {
+//            val timeToCheckDate = dateFormat.parse(timeToCheck.toString())
+//            val startTimeDate = dateFormat.parse(startTime.toString())
+//            val endTimeDate = dateFormat.parse(endTime.toString())
+//            Log.d("time_check","timeToCheckDate $timeToCheckDate startTimeDate $startTimeDate endTimeDate $endTimeDate")
+//
+//             Check if the time is between the start and end times
+//            return timeToCheckDate in startTimeDate..endTimeDate
+//            return timeToCheck in startTime..endTime
+//        } catch (e: Exception) {
+//            e.printStackTrace()
+//        }
+//
+//        // Return false in case of any exception or invalid input
+//        return false
+//    }
+
+    private fun backgroundScreenGradient(drawable: Int) {
+        ContextCompat.getDrawable(requireContext(), drawable)?.toBitmap()?.let {
+            Palette.from(it)
+                .maximumColorCount(10)
+                .generate { palette ->
+                    val vibrantSwatch = palette?.vibrantSwatch
+                    val lightVibrantSwatch = palette?.lightVibrantSwatch
+                    val dominantSwatch = palette?.dominantSwatch
+                    val darkVibrantSwatch = palette?.darkVibrantSwatch
+                    if (vibrantSwatch != null) {
+                        changeBackground(vibrantSwatch)
+                        requireActivity().changeStatusBarColor(vibrantSwatch.rgb)
+                    } else if (lightVibrantSwatch != null) {
+                        changeBackground(lightVibrantSwatch)
+                        requireActivity().changeStatusBarColor(lightVibrantSwatch.rgb)
+                    } else if (dominantSwatch != null) {
+                        changeBackground(dominantSwatch)
+                        requireActivity().changeStatusBarColor(dominantSwatch.rgb)
+                    } else if (darkVibrantSwatch != null) {
+                        changeBackground(darkVibrantSwatch)
+                        requireActivity().changeStatusBarColor(darkVibrantSwatch.rgb)
+                    }
+                }
+        }
+    }
+
+    private fun changeBackground(color: Palette.Swatch) {
+        binding.root.setBackgroundColor(color.rgb)
+        binding.prayersTimeContainerLayout.background = createGradientDrawable(color)
+    }
+
+    private fun createGradientDrawable(palette: Palette.Swatch): GradientDrawable? {
+        return try {
+            GradientDrawable(
+                GradientDrawable.Orientation.BOTTOM_TOP,
+                intArrayOf(
+                    ContextCompat.getColor(requireActivity(), R.color.white), //requireContext().getColor(R.color.bg)
+                    palette.rgb
+                )
+            ).apply { cornerRadius = 0f }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     private fun dailyOneTimeRunWorkerTrigger() {
+        val today = SimpleDate(GregorianCalendar())
+        val location = Location(23.8103, 90.4125, +6.0, 0)
+        val azan = Azan(location, Method.KARACHI_HANAF)
+        val prayerTimes = azan.getPrayerTimes(today)
+
         workManager = WorkManager.getInstance(requireContext())
 
         val constraints = Constraints.Builder()
@@ -189,7 +249,7 @@ class HomeFragment : Fragment() {
 
         val data = Data.EMPTY
 
-        periodicWorkRequest = PeriodicWorkRequestBuilder<PrayersWorker>(1, TimeUnit.DAYS) //, 15, TimeUnit.MINUTES
+        periodicWorkRequest = PeriodicWorkRequestBuilder<PrayersWorker>(12, TimeUnit.HOURS)
             .setInputData(data)
             .setConstraints(constraints)
             .addTag(WORKER_TAG)
