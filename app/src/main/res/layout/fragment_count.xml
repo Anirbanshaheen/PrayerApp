@@ -32,4 +32,16 @@
         app:layout_constraintTop_toBottomOf="@+id/countTV"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.example.prayerapp.ui.native_template.TemplateView
+        android:id="@+id/nativeAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:gnt_template_type="@layout/gnt_small_template_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/resetBt"
+        app:layout_constraintVertical_bias=".5" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

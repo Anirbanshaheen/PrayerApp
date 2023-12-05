@@ -1,6 +1,7 @@
 package com.example.prayerapp.ui
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,9 @@ import com.example.prayerapp.databinding.FragmentCountBinding
 import com.example.prayerapp.databinding.FragmentHomeBinding
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.utils.changeFragment
+import com.google.android.gms.ads.AdLoader
+import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -17,6 +21,7 @@ import javax.inject.Inject
 class CountFragment : Fragment() {
 
     private lateinit var binding : FragmentCountBinding
+    lateinit var adLoader: AdLoader
 
     @Inject
     lateinit var prefs: Prefs
@@ -32,11 +37,24 @@ class CountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        MobileAds.initialize(requireContext()) {}
+
         initialize()
     }
 
     private fun initialize() {
+        adShow()
         counter()
+    }
+
+    private fun adShow() {
+        adLoader = AdLoader.Builder(requireContext(), "ca-app-pub-3940256099942544/2247696110")
+            .forNativeAd {
+                binding.nativeAd.setNativeAd(it)
+                Log.e("","")
+            }.build()
+        adLoader.loadAd(AdRequest.Builder().build())
     }
 
     private fun counter() {
