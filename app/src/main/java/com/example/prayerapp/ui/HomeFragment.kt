@@ -70,7 +70,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View? {  // test comment
         binding = FragmentHomeBinding.inflate(inflater)
         prefs = Prefs(requireContext())
         return binding.root
