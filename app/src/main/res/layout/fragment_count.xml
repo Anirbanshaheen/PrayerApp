@@ -6,31 +6,60 @@
     android:layout_height="match_parent"
     tools:context=".ui.CountFragment">
 
-    <Button
-        android:id="@+id/countBt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Count"
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="260dp"
+        android:layout_height="260dp"
+        android:background="@drawable/circular_shape"
+        android:indeterminate="false"
+        android:progressDrawable="@drawable/circular_progress_bar"
+        android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/nativeAd"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/countTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/countBt"
+    <ImageView
+        android:id="@+id/mainCircleIV"
+        android:layout_width="210dp"
+        android:layout_height="210dp"
+        android:background="@drawable/bg_rounded_corner_main"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/nativeAd"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/resetBt"
+    <ImageView
+        android:id="@+id/countIV"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:background="@drawable/bg_rounded_corner_sub"
+        app:layout_constraintBottom_toBottomOf="@+id/mainCircleIV"
+        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
+        app:layout_constraintStart_toStartOf="@+id/mainCircleIV" />
+
+    <TextView
+        android:id="@+id/countMainTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Reset"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/countTV"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:text="Count: "
+        app:layout_constraintBottom_toTopOf="@+id/countIV"
+        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
+        app:layout_constraintStart_toStartOf="@+id/mainCircleIV"
+        app:layout_constraintTop_toTopOf="@+id/mainCircleIV" />
+
+    <ImageView
+        android:id="@+id/resetIV"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/bg_rounded_corner_reset"
+        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
+        app:layout_constraintStart_toEndOf="@+id/countIV"
+        app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
 
     <com.example.prayerapp.ui.native_template.TemplateView
         android:id="@+id/nativeAd"
@@ -41,7 +70,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/resetBt"
-        app:layout_constraintVertical_bias=".5" />
+        app:layout_constraintVertical_bias=".5"
+        tools:visibility="visible" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

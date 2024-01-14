@@ -59,6 +59,10 @@ class MainActivity : AppCompatActivity() {
     @Inject
     lateinit var prefs: Prefs
 
+    companion object {
+        lateinit var mainActivity: MainActivity
+    }
+
 
     private var isPermission = false
     private var checkNotificationPermission = registerForActivityResult(
@@ -72,6 +76,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        mainActivity = this
 
         initialize()
         observer()

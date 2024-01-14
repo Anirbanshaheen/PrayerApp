@@ -90,8 +90,8 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
         }
         Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
         alarmManager.cancel(pendingIntent) // first cancel alarm then set the new alarm
-        alarmManager.setExact(
-            AlarmManager.RTC_WAKEUP,
+        alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.ELAPSED_REALTIME_WAKEUP,
             calendar.timeInMillis,
             pendingIntent
         )
@@ -109,8 +109,8 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
             PrayersTime(
                 1,
                 "Fajr Time",
-                13,
-                19
+                10,
+                10
 //                prayerTimes.fajr().hour,
 //                prayerTimes.fajr().minute
             ),

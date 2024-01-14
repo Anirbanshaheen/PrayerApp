@@ -34,6 +34,7 @@ import com.azan.astrologicalCalc.SimpleDate
 import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentHomeBinding
 import com.example.prayerapp.prefs.Prefs
+import com.example.prayerapp.ui.MainActivity.Companion.mainActivity
 import com.example.prayerapp.utils.changeStatusBarColor
 import com.example.prayerapp.utils.twentyFourTo12HourConverter
 import com.example.prayerapp.worker.PrayersWorker
@@ -70,7 +71,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {  // test
+    ): View? {
         binding = FragmentHomeBinding.inflate(inflater)
         prefs = Prefs(requireContext())
         return binding.root
@@ -84,6 +85,15 @@ class HomeFragment : Fragment() {
         initialize()
         dailyOneTimeRunWorkerTrigger()
     }
+
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//
+//    }
+
+//    override fun onDetach() {
+//        super.onDetach()
+//    }
 
     private fun initialize() {
         adShow()
@@ -221,16 +231,16 @@ class HomeFragment : Fragment() {
                     val darkVibrantSwatch = palette?.darkVibrantSwatch
                     if (vibrantSwatch != null) {
                         changeBackground(vibrantSwatch)
-                        requireActivity().changeStatusBarColor(vibrantSwatch.rgb)
+                        mainActivity.changeStatusBarColor(vibrantSwatch.rgb)
                     } else if (lightVibrantSwatch != null) {
                         changeBackground(lightVibrantSwatch)
-                        requireActivity().changeStatusBarColor(lightVibrantSwatch.rgb)
+                        mainActivity.changeStatusBarColor(lightVibrantSwatch.rgb)
                     } else if (dominantSwatch != null) {
                         changeBackground(dominantSwatch)
-                        requireActivity().changeStatusBarColor(dominantSwatch.rgb)
+                        mainActivity.changeStatusBarColor(dominantSwatch.rgb)
                     } else if (darkVibrantSwatch != null) {
                         changeBackground(darkVibrantSwatch)
-                        requireActivity().changeStatusBarColor(darkVibrantSwatch.rgb)
+                        mainActivity.changeStatusBarColor(darkVibrantSwatch.rgb)
                     }
                 }
         }
