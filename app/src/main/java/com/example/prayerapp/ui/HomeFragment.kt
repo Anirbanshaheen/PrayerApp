@@ -96,22 +96,22 @@ class HomeFragment : Fragment() {
 //    }
 
     private fun initialize() {
-        adShow()
+        //adShow()
         setDNDModePolicy()
         checkPermission()
         showTime()
     }
 
-    private fun adShow() {
-        adRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
-        binding.adView.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                super.onAdLoaded()
-
-            }
-        }
-    }
+//    private fun adShow() {
+//        adRequest = AdRequest.Builder().build()
+//        binding.adView.loadAd(adRequest)
+//        binding.adView.adListener = object : AdListener() {
+//            override fun onAdLoaded() {
+//                super.onAdLoaded()
+//
+//            }
+//        }
+//    }
 
     private fun setDNDModePolicy() {
         val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager

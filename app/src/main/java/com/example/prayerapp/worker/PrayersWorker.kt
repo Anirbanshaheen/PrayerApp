@@ -109,10 +109,10 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
             PrayersTime(
                 1,
                 "Fajr Time",
-                10,
-                10
-//                prayerTimes.fajr().hour,
-//                prayerTimes.fajr().minute
+//                10,
+//                10
+                prayerTimes.fajr().hour,
+                prayerTimes.fajr().minute
             ),
             PrayersTime(
                 2,
