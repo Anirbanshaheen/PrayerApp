@@ -7,8 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.prayerapp.databinding.FragmentCountBinding
 import com.example.prayerapp.prefs.Prefs
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.MobileAds
+//import com.google.android.gms.ads.AdLoader
+//import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -16,8 +16,9 @@ import javax.inject.Inject
 class CountFragment : Fragment() {
 
     private lateinit var binding : FragmentCountBinding
-    lateinit var adLoader: AdLoader
-    var countValue = 0
+    //lateinit var adLoader: AdLoader
+    private var countValue = 0
+    private var countMaxValue = 0
 
     @Inject
     lateinit var prefs: Prefs
@@ -35,7 +36,7 @@ class CountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        MobileAds.initialize(requireContext()) {}
+        //MobileAds.initialize(requireContext()) {}
 
         initialize()
     }
@@ -43,6 +44,28 @@ class CountFragment : Fragment() {
     private fun initialize() {
         //adShow()
         counter()
+        selectCounterValue()
+    }
+
+    private fun selectCounterValue() {
+        binding.buttonOne.setOnClickListener {
+            binding.countSelectTv.text = "Selected : 33"
+            countMaxValue = 33
+            binding.progressBar.max = countMaxValue
+        }
+
+        binding.buttonTwo.setOnClickListener {
+            binding.countSelectTv.text = "Selected : 34"
+            countMaxValue = 34
+            binding.progressBar.max = countMaxValue
+        }
+
+        binding.buttonThree.setOnClickListener {
+            binding.countSelectTv.text = "Selected : 35"
+            countMaxValue = 35
+            binding.progressBar.max = countMaxValue
+        }
+
     }
 
 //    private fun adShow() {
@@ -56,7 +79,7 @@ class CountFragment : Fragment() {
 
     private fun counter() {
         var count = prefs.counterValue
-        binding.progressBar.max = 5
+        binding.progressBar.max = countMaxValue
         incrementProgress(count)
         binding.countMainTV.text = "Count $count"
 

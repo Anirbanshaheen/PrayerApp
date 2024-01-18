@@ -38,10 +38,10 @@ import com.example.prayerapp.ui.MainActivity.Companion.mainActivity
 import com.example.prayerapp.utils.changeStatusBarColor
 import com.example.prayerapp.utils.twentyFourTo12HourConverter
 import com.example.prayerapp.worker.PrayersWorker
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdLoader
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.MobileAds
+//import com.google.android.gms.ads.AdListener
+//import com.google.android.gms.ads.AdLoader
+//import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.GregorianCalendar
@@ -55,8 +55,8 @@ class HomeFragment : Fragment() {
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest
     private val WORKER_TAG = "PRAYERS_WORKER"
-    lateinit var adRequest : AdRequest
-    lateinit var adLoader: AdLoader
+//    lateinit var adRequest : AdRequest
+//    lateinit var adLoader: AdLoader
 
     @Inject
     lateinit var prefs: Prefs
@@ -80,7 +80,7 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        MobileAds.initialize(requireContext()) {}
+        //MobileAds.initialize(requireContext()) {}
 
         initialize()
         dailyOneTimeRunWorkerTrigger()
@@ -315,16 +315,16 @@ class HomeFragment : Fragment() {
 
     override fun onPause() {
         super.onPause()
-        binding.adView.pause()
+        //binding.adView.pause()
     }
 
     override fun onResume() {
         super.onResume()
-        binding.adView.resume()
+        //binding.adView.resume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        binding.adView.destroy()
+        //binding.adView.destroy()
     }
 }
