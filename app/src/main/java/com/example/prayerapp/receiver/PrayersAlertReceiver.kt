@@ -69,7 +69,7 @@ class PrayersAlertReceiver : BroadcastReceiver() {
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
         val titleNotification = i.getStringExtra("NAME")
-        val subtitleNotification = "Your Phone Is Going To Vibrate Mode Now."
+        val subtitleNotification = "Your Phone Is Going To Silent Mode Now."
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
         } else {

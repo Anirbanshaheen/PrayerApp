@@ -2,8 +2,6 @@ package com.example.prayerapp.ui
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
@@ -35,11 +33,7 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
-import com.google.android.gms.tasks.CancellationTokenSource
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class CompassFragment : Fragment(), SensorEventListener {
@@ -76,9 +70,6 @@ class CompassFragment : Fragment(), SensorEventListener {
     private fun init() {
         enableLocation()
         getLocationTest()
-        binding.testBtn.setOnClickListener {
-            //getLocationTest()
-        }
     }
 
     private fun isLocationEnabled(): Boolean {

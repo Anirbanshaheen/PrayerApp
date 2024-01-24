@@ -28,7 +28,7 @@ class CountFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentCountBinding.inflate(inflater)
         prefs = Prefs(requireContext())
         return binding.root

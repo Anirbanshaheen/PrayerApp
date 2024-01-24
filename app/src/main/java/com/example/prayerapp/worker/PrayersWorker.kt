@@ -36,11 +36,11 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
     override fun doWork(): Result {
         prefs = Prefs(context)
         return try {
-            Log.d("TAKE_TIME", "Prayers Worker call")
+            //Log.d("TAKE_TIME", "Prayers Worker call")
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             for (i in getPrayersTime()) {
-                Log.d("TAKE_TIME", " time : $i")
+                //Log.d("TAKE_TIME", " time : $i")
                 val calendar = Calendar.getInstance().apply {
                     set(Calendar.HOUR_OF_DAY, i.hours)
                     set(Calendar.MINUTE, i.minutes)
@@ -56,7 +56,7 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
 
             Result.success()
         } catch (e: IOException) {
-            Log.d("TAKE_TIME", " time : ${e.localizedMessage}")
+            //Log.d("TAKE_TIME", " time : ${e.localizedMessage}")
             Result.retry()
         }
     }
@@ -88,14 +88,14 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
             set(Calendar.MINUTE, minutes)
             set(Calendar.SECOND, 0)
         }
-        Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
+        //Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
         alarmManager.cancel(pendingIntent) // first cancel alarm then set the new alarm
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.ELAPSED_REALTIME_WAKEUP,
             calendar.timeInMillis,
             pendingIntent
         )
-        Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
+        //Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
     }
 
     private fun getPrayersTime() = runBlocking {
@@ -103,7 +103,7 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
         val location = Location(23.7561, 90.3872, +6.0, 0)
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
-        val imsaak = azan.getImsaak(today)
+        //val imsaak = azan.getImsaak(today)
 
         val prayerTimeList = arrayListOf(
             PrayersTime(

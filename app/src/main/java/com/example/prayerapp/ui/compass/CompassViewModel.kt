@@ -59,7 +59,7 @@ class CompassViewModel : ViewModel() {
                             }
                         }
                     }catch (e: Exception) {
-                        Log.e("PrayerError",e.message.toString())
+                        //Log.e("PrayerError",e.message.toString())
                     }
                 }
             }
