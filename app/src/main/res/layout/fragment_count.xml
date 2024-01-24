@@ -9,37 +9,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar">
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/buttonOne"
             android:layout_width="wrap_content"
-            android:text="Alhamdulliah 33"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1"
+            android:text="Alhamdulliah 33" />
 
         <Button
             android:id="@+id/buttonTwo"
             android:layout_width="wrap_content"
-            android:text="Alhamdulliah 33"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1"
+            android:text="Allahu Akbar 34" />
 
         <Button
             android:id="@+id/buttonThree"
             android:layout_width="wrap_content"
-            android:text="Alhamdulliah 33"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:layout_height="wrap_content"/>
+            android:layout_weight="1"
+            android:text="Subhanallah 35" />
 
     </LinearLayout>
+
+    <!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -53,10 +55,10 @@
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-<!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.498" />
 
     <ImageView
         android:id="@+id/mainCircleIV"
@@ -70,7 +72,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-<!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
+    <!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
 
     <ImageView
         android:id="@+id/countIV"
@@ -95,12 +97,12 @@
         android:id="@+id/countSelectTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:text="Select: "
         android:textSize="16sp"
-        android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
         app:layout_constraintStart_toStartOf="@+id/mainCircleIV"
-        app:layout_constraintTop_toBottomOf="@+id/countMainTV"/>
+        app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
 
     <ImageView
         android:id="@+id/resetIV"
@@ -113,16 +115,16 @@
         app:layout_constraintStart_toEndOf="@+id/countIV"
         app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
 
-<!--    <com.example.prayerapp.ui.native_template.TemplateView-->
-<!--        android:id="@+id/nativeAd"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:visibility="gone"-->
-<!--        app:gnt_template_type="@layout/gnt_small_template_view"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintVertical_bias=".5"-->
-<!--        tools:visibility="visible" />-->
+    <!--    <com.example.prayerapp.ui.native_template.TemplateView-->
+    <!--        android:id="@+id/nativeAd"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:visibility="gone"-->
+    <!--        app:gnt_template_type="@layout/gnt_small_template_view"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintVertical_bias=".5"-->
+    <!--        tools:visibility="visible" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

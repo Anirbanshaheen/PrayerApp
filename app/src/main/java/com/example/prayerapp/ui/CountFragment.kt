@@ -19,6 +19,7 @@ class CountFragment : Fragment() {
     //lateinit var adLoader: AdLoader
     private var countValue = 0
     private var countMaxValue = 0
+    private var selectedValue = 0
 
     @Inject
     lateinit var prefs: Prefs
@@ -43,27 +44,37 @@ class CountFragment : Fragment() {
 
     private fun initialize() {
         //adShow()
-        counter()
+
         selectCounterValue()
+        counter()
     }
 
     private fun selectCounterValue() {
+        selectedValue = prefs.selectedValue
+        binding.countSelectTv.text = "Selected : $selectedValue"
+
         binding.buttonOne.setOnClickListener {
-            binding.countSelectTv.text = "Selected : 33"
             countMaxValue = 33
+            selectedValue = countMaxValue
+            binding.countSelectTv.text = "Selected : $selectedValue"
             binding.progressBar.max = countMaxValue
+            prefs.selectedValue = selectedValue
         }
 
         binding.buttonTwo.setOnClickListener {
-            binding.countSelectTv.text = "Selected : 34"
             countMaxValue = 34
+            selectedValue = countMaxValue
+            binding.countSelectTv.text = "Selected : $selectedValue"
             binding.progressBar.max = countMaxValue
+            prefs.selectedValue = selectedValue
         }
 
         binding.buttonThree.setOnClickListener {
-            binding.countSelectTv.text = "Selected : 35"
             countMaxValue = 35
+            selectedValue = countMaxValue
+            binding.countSelectTv.text = "Selected : $selectedValue"
             binding.progressBar.max = countMaxValue
+            prefs.selectedValue = selectedValue
         }
 
     }
@@ -79,7 +90,7 @@ class CountFragment : Fragment() {
 
     private fun counter() {
         var count = prefs.counterValue
-        binding.progressBar.max = countMaxValue
+        binding.progressBar.max = selectedValue
         incrementProgress(count)
         binding.countMainTV.text = "Count $count"
 

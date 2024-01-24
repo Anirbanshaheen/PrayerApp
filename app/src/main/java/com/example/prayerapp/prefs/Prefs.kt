@@ -27,6 +27,14 @@ class Prefs @Inject constructor(@ApplicationContext private val context: Context
             instance.edit().putInt(::counterValue.name, value).apply()
         }
 
+    var selectedValue: Int
+        get() {
+            return instance.getInt(::selectedValue.name, 0)
+        }
+        set(value) {
+            instance.edit().putInt(::selectedValue.name, value).apply()
+        }
+
     var prayerBg: Int?
         get() {
             return instance.getInt(::prayerBg.name, 0)
