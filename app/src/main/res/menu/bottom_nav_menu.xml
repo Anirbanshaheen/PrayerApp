@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/home_menu"
+        android:id="@+id/homeFragment"
         android:enabled="true"
         android:icon="@drawable/ic_home"
         android:title="Home"/>
     <item
-        android:id="@+id/count_menu"
+        android:id="@+id/countFragment"
         android:enabled="true"
         android:icon="@drawable/ic_baseline_album"
         android:title="Count"/>
     <item
-        android:id="@+id/compass_menu"
+        android:id="@+id/compassFragment"
         android:enabled="true"
         android:icon="@drawable/ic_compass"
         android:title="Compass"/>

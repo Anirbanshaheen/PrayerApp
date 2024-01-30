@@ -10,7 +10,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.app.NavUtils
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import androidx.work.PeriodicWorkRequest
 import androidx.work.WorkManager
 import com.example.prayerapp.R
@@ -19,6 +24,7 @@ import com.example.prayerapp.model.FragmentState
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.utils.changeFragment
 import com.example.prayerapp.viewmodel.PrayerViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -55,9 +61,18 @@ class MainActivity : AppCompatActivity() {
 
         mainActivity = this
 
-        initialize()
-        observer()
-        clickListeners()
+        val bottomNavigationView = findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        val navController = findNavController(R.id.fragmentContainer)
+
+        bottomNavigationView.setupWithNavController(navController)
+
+        //app bar config
+//        val appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.countFragment, R.id.compassFragment))
+//        setupActionBarWithNavController(navController, appBarConfiguration)
+
+        //initialize()
+        //observer()
+        //clickListeners()
 
 //        dailyOneTimeRunWorkerTrigger()
 //        clickListeners()
@@ -73,7 +88,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initialize() {
-        changeFragment(R.id.fragmentContainer, HomeFragment(), false)
+        //changeFragment(R.id.fragmentContainer, HomeFragment(), false)
 
 //        if (!checkPermissions()) {
 //            requestPermissions()
@@ -112,49 +127,49 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun observer() {
-        lifecycleScope.launch {
-            prayersViewModel.fragmentSwitchState.collectLatest {
-                when(it) {
-                    FragmentState.homeFragment.value -> {
-                        binding.bottomNavigation.menu.findItem(R.id.home_menu).isChecked = true
-                        changeFragment(R.id.fragmentContainer, HomeFragment(), false)
-                    }
-
-                    FragmentState.countFragment.value -> {
-                        binding.bottomNavigation.menu.findItem(R.id.count_menu).isChecked = true
-                        changeFragment(R.id.fragmentContainer, CountFragment(), false)
-                    }
-
-                    FragmentState.compassFragment.value -> {
-                        binding.bottomNavigation.menu.findItem(R.id.compass_menu).isChecked = true
-                        changeFragment(R.id.fragmentContainer, CompassFragment(), false)
-                    }
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            prayersViewModel.fragmentSwitchState.collectLatest {
+//                when(it) {
+//                    FragmentState.homeFragment.value -> {
+//                        binding.bottomNavigation.menu.findItem(R.id.home_menu).isChecked = true
+//                        changeFragment(R.id.fragmentContainer, HomeFragment(), false)
+//                    }
+//
+//                    FragmentState.countFragment.value -> {
+//                        binding.bottomNavigation.menu.findItem(R.id.count_menu).isChecked = true
+//                        changeFragment(R.id.fragmentContainer, CountFragment(), false)
+//                    }
+//
+//                    FragmentState.compassFragment.value -> {
+//                        binding.bottomNavigation.menu.findItem(R.id.compass_menu).isChecked = true
+//                        changeFragment(R.id.fragmentContainer, CompassFragment(), false)
+//                    }
+//                }
+//            }
+//        }
     }
 
     private fun clickListeners() {
-        binding.bottomNavigation.setOnItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home_menu -> {
-                    prayersViewModel.setFragmentSwitchState(1)
-                    true
-                }
-
-                R.id.count_menu -> {
-                    prayersViewModel.setFragmentSwitchState(2)
-                    true
-                }
-
-                R.id.compass_menu -> {
-                    prayersViewModel.setFragmentSwitchState(3)
-                    true
-                }
-
-                else -> false
-            }
-        }
+//        binding.bottomNavigation.setOnItemSelectedListener { item ->
+//            when (item.itemId) {
+//                R.id.home_menu -> {
+//                    prayersViewModel.setFragmentSwitchState(1)
+//                    true
+//                }
+//
+//                R.id.count_menu -> {
+//                    prayersViewModel.setFragmentSwitchState(2)
+//                    true
+//                }
+//
+//                R.id.compass_menu -> {
+//                    prayersViewModel.setFragmentSwitchState(3)
+//                    true
+//                }
+//
+//                else -> false
+//            }
+//        }
     }
 
 
