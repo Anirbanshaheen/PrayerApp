@@ -327,4 +327,12 @@ class HomeFragment : Fragment() {
         super.onDestroy()
         //binding.adView.destroy()
     }
+
+    companion object {
+        fun newInstance() = HomeFragment().apply {
+            arguments = Bundle().apply {
+
+            }
+        }
+    }
 }

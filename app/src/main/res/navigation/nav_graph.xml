@@ -20,4 +20,9 @@
         android:name="com.example.prayerapp.ui.CompassFragment"
         android:label="fragment_compass"
         tools:layout="@layout/fragment_compass" />
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.example.prayerapp.ui.SettingsFragment"
+        android:label="fragment_settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

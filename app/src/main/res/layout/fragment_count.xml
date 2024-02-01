@@ -6,14 +6,24 @@
     android:layout_height="match_parent"
     tools:context=".ui.CountFragment">
 
+    <Toolbar
+        android:id="@+id/counterTB"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:title="Counter"
+        android:background="@color/tool_bar_back"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/buttonLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/counterTB">
 
         <Button
             android:id="@+id/buttonOne"
@@ -57,7 +67,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonLinearLayout"
         app:layout_constraintVertical_bias="0.498" />
 
     <ImageView
@@ -70,7 +80,7 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/buttonLinearLayout" />
 
     <!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
 

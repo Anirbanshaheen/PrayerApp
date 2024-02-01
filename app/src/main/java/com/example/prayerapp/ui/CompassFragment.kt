@@ -218,4 +218,12 @@ class CompassFragment : Fragment(), SensorEventListener {
         super.onDestroyView()
         exH { sensorManager?.unregisterListener(this) }
     }
+
+    companion object {
+        fun newInstance() = CompassFragment().apply {
+            arguments = Bundle().apply {
+
+            }
+        }
+    }
 }

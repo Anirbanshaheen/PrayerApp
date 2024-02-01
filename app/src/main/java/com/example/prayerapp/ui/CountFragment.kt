@@ -119,4 +119,12 @@ class CountFragment : Fragment() {
             binding.countMainTV.text = "Count ${binding.progressBar.max}"
         }
     }
+
+    companion object {
+        fun newInstance() = CountFragment().apply {
+            arguments = Bundle().apply {
+
+            }
+        }
+    }
 }
