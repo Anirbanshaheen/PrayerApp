@@ -7,6 +7,14 @@
 
     <style name="Theme.PrayerApp" parent="Base.Theme.PrayerApp" />
 
+    <style name="AboutBottomSheetFragment" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/aboutBottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="aboutBottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
     <style name="ShapeAppearanceOverlay.App.CornerSize" parent="">
         <item name="cornerSizeBottomLeft">15dp</item>
         <item name="cornerSizeBottomRight">15dp</item>

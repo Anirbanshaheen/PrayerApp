@@ -72,8 +72,8 @@ dependencies {
     implementation("androidx.activity:activity-ktx:1.8.2")
 
     // navigation
-    implementation("androidx.navigation:navigation-fragment-ktx:2.7.6")
-    implementation("androidx.navigation:navigation-ui-ktx:2.7.6")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.7.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.7.7")
 
     // ViewModel & lifeCycleScope
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
@@ -84,6 +84,6 @@ dependencies {
     //implementation("com.google.android.gms:play-services-ads:22.6.0")
 
     //firebase crashlytics
-    implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.1")
-    implementation("com.google.firebase:firebase-analytics:21.5.0")
+    implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.2")
+    implementation("com.google.firebase:firebase-analytics:21.5.1")
 }
