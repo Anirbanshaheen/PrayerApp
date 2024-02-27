@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/aboutTV"
             android:padding="16dp"
-            android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
+            android:text="Focus solely on your prayers, with automatic phone silencing during prayer times.\n\n We're thrilled to launch the Auto Silent Prayer app, and a huge thank you goes out to Rezowan Bhai and Fahad Bhai for their contributions to its success. We're also grateful to Naymul Ashfak for creating the beautiful (UI/UX).\n\nAny suggestion or feedback please email us anirbanshaheen97@gmail.com"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
