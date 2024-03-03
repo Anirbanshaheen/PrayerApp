@@ -28,9 +28,21 @@
         <TextView
             android:id="@+id/aboutTV"
             android:padding="16dp"
-            android:text="Focus solely on your prayers, with automatic phone silencing during prayer times.\n\n We're thrilled to launch the Auto Silent Prayer app, and a huge thank you goes out to Rezowan Bhai and Fahad Bhai for their contributions to its success. We're also grateful to Naymul Ashfak for creating the beautiful (UI/UX).\n\nAny suggestion or feedback please email us anirbanshaheen97@gmail.com"
+            android:text="Focus solely on your prayers, with automatic phone silencing during prayer times.\n\nWe're thrilled to launch the Auto Silent Prayer app, and a huge thank you goes out to Rezowan Bhai and Fahad Bhai for their contributions to its success. We're also grateful to Naymul Ashfak for creating the beautiful (UI/UX).\n\nAny suggestion or feedback please email us"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/emailTV"
+            android:text="anirbanshaheen97@gmail.com"
+            android:textColor="@color/blue"
+            android:paddingBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/aboutTV"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:layout_width="wrap_content"

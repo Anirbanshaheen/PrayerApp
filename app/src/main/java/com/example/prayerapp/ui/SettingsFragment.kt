@@ -45,9 +45,8 @@ class SettingsFragment : Fragment() {
         }
 
         binding.aboutLayout.setOnClickListener {
-            val bottomSheetDialog = BottomSheetDialog(requireContext())
-            bottomSheetDialog.setContentView(R.layout.about_bottomsheet_dialog)
-            bottomSheetDialog.show()
+            val bottomSheetDialog = AboutBottomSheetFragmentDialog()
+            bottomSheetDialog.show(childFragmentManager, "aboutBottomSheet")
         }
 
     }
