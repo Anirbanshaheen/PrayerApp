@@ -28,7 +28,7 @@
         android:textSize="32sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Fazor" />
+        tools:text="Fajr" />
 
     <TextView
         android:id="@+id/prayerTimeTV"
@@ -79,21 +79,21 @@
 
                     <TextView
                         android:id="@+id/fazorNameTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Fazor Time"
+                        android:text="Fajr Time"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/fazorTimeTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
                         android:textSize="18sp"
-                        tools:text="Fazor Time" />
+                        tools:text="Fajr Time" />
 
                 </LinearLayout>
 
@@ -123,21 +123,21 @@
 
                     <TextView
                         android:id="@+id/juhorNameTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Johor Time"
+                        android:text="Dhuhr Time"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/juhorTimeTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
                         android:textSize="18sp"
-                        tools:text="Johor Time" />
+                        tools:text="Dhuhr Time" />
 
                 </LinearLayout>
 
@@ -167,21 +167,21 @@
 
                     <TextView
                         android:id="@+id/asorNameTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Asor Time"
+                        android:text="Asr Time"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/asorTimeTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
                         android:textSize="18sp"
-                        tools:text="Asor Time" />
+                        tools:text="Asr Time" />
 
                 </LinearLayout>
 
@@ -211,21 +211,21 @@
 
                     <TextView
                         android:id="@+id/magribNameTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Magrib Time"
+                        android:text="Maghrib Time"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/magribTimeTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
                         android:textSize="18sp"
-                        tools:text="Magrib Time" />
+                        tools:text="Maghrib Time" />
 
                 </LinearLayout>
 
@@ -255,21 +255,21 @@
 
                     <TextView
                         android:id="@+id/eshaNameTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Esha Time"
+                        android:text="Isha Time"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/eshaTimeTV"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
                         android:textSize="18sp"
-                        tools:text="Esha Time" />
+                        tools:text="Isha Time" />
 
                 </LinearLayout>
 
