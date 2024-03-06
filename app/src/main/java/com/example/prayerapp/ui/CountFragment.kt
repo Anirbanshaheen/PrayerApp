@@ -1,12 +1,17 @@
 package com.example.prayerapp.ui
 
+import android.annotation.SuppressLint
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentCountBinding
 import com.example.prayerapp.prefs.Prefs
+import com.google.android.material.card.MaterialCardView
 //import com.google.android.gms.ads.AdLoader
 //import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,6 +25,7 @@ class CountFragment : Fragment() {
     private var countValue = 0
     private var countMaxValue = 0
     private var selectedValue = 0
+    private var selectedName = ""
 
     @Inject
     lateinit var prefs: Prefs
@@ -51,30 +57,37 @@ class CountFragment : Fragment() {
 
     private fun selectCounterValue() {
         selectedValue = prefs.selectedValue
-        binding.countSelectTv.text = "Selected : $selectedValue"
+        selectedName = prefs.selectedName.toString()
+        binding.countSelectTv.text = "Selected $selectedName : $selectedValue"
 
         binding.buttonOne.setOnClickListener {
             countMaxValue = 33
+            selectedName = "Alhamdulliah"
             selectedValue = countMaxValue
-            binding.countSelectTv.text = "Selected : $selectedValue"
+            binding.countSelectTv.text = "Selected $selectedName : $selectedValue"
             binding.progressBar.max = countMaxValue
             prefs.selectedValue = selectedValue
+            prefs.selectedName = selectedName
         }
 
         binding.buttonTwo.setOnClickListener {
-            countMaxValue = 34
+            countMaxValue = 33
+            selectedName = "Allahu Akbar"
             selectedValue = countMaxValue
-            binding.countSelectTv.text = "Selected : $selectedValue"
+            binding.countSelectTv.text = "Selected $selectedName : $selectedValue"
             binding.progressBar.max = countMaxValue
             prefs.selectedValue = selectedValue
+            prefs.selectedName = selectedName
         }
 
         binding.buttonThree.setOnClickListener {
-            countMaxValue = 35
+            countMaxValue = 33
+            selectedName = "Subhanallah"
             selectedValue = countMaxValue
-            binding.countSelectTv.text = "Selected : $selectedValue"
+            binding.countSelectTv.text = "Selected $selectedName : $selectedValue"
             binding.progressBar.max = countMaxValue
             prefs.selectedValue = selectedValue
+            prefs.selectedName = selectedName
         }
 
     }
@@ -103,6 +116,7 @@ class CountFragment : Fragment() {
             binding.progressBar.progress = countValue
             binding.countMainTV.text = "Count $countValue"
             prefs.counterValue = countValue
+            prefs.selectedName = "Null"
         }
     }
 

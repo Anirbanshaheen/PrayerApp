@@ -10,8 +10,8 @@
         android:id="@+id/counterTB"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:title="Counter"
         android:background="@color/tool_bar_back"
+        android:title="Counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,29 +25,134 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/counterTB">
 
-        <Button
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/buttonOne"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="Alhamdulliah 33" />
+            android:clickable="true"
+            android:focusable="true"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp">
 
-        <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/AlhamdulliahTextName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_card"
+                    android:gravity="center"
+                    android:text="Alhamdulliah\n33"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/buttonTwo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="Allahu Akbar 34" />
+            android:clickable="true"
+            android:focusable="true"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp">
 
-        <Button
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/AllahuAkbarTextName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_card"
+                    android:gravity="center"
+                    android:text="Allahu Akbar\n33"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/buttonThree"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="2dp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
             android:layout_weight="1"
-            android:text="Subhanallah 35" />
+            android:clickable="true"
+            android:focusable="true"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/SubhanallahTextName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_card"
+                    android:gravity="center"
+                    android:text="Subhanallah\n33"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <!--        <Button-->
+        <!--            android:id="@+id/buttonOne"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_margin="2dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="Alhamdulliah 33" />-->
+
+        <!--        <Button-->
+        <!--            android:id="@+id/buttonTwo"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_margin="2dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="Allahu Akbar 33" />-->
+
+        <!--        <Button-->
+        <!--            android:id="@+id/buttonThree"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:layout_margin="2dp"-->
+        <!--            android:layout_weight="1"-->
+        <!--            android:text="Subhanallah 33" />-->
 
     </LinearLayout>
 
