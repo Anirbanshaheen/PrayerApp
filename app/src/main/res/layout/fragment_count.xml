@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/tool_bar_back"
-        android:title="Counter"
+        android:title="@string/counter"
+        android:titleTextColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -26,6 +27,41 @@
         app:layout_constraintTop_toBottomOf="@+id/counterTB">
 
         <com.google.android.material.card.MaterialCardView
+            android:id="@+id/buttonThree"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="6dp"
+            app:cardElevation="4dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/SubhanallahTextName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/font_card"
+                    android:gravity="center"
+                    android:text="@string/subhanallah_n33"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/buttonOne"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -33,7 +69,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            android:backgroundTint="@color/white"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="6dp"
             app:cardElevation="4dp">
 
@@ -48,7 +84,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_card"
                     android:gravity="center"
-                    android:text="Alhamdulliah\n33"
+                    android:text="@string/alhamdulliah_n33"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -68,7 +104,7 @@
             android:layout_weight="1"
             android:clickable="true"
             android:focusable="true"
-            android:backgroundTint="@color/white"
+            app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="6dp"
             app:cardElevation="4dp">
 
@@ -83,42 +119,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/font_card"
                     android:gravity="center"
-                    android:text="Allahu Akbar\n33"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/buttonThree"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_margin="4dp"
-            android:layout_weight="1"
-            android:clickable="true"
-            android:focusable="true"
-            android:backgroundTint="@color/white"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="4dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/SubhanallahTextName"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="10dp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_card"
-                    android:gravity="center"
-                    android:text="Subhanallah\n33"
+                    android:text="@string/allahu_akbar_n34"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -158,77 +159,94 @@
 
     <!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="260dp"
-        android:layout_height="260dp"
-        android:background="@drawable/circular_shape"
-        android:indeterminate="false"
-        android:progressDrawable="@drawable/circular_progress_bar"
-        android:textAlignment="center"
+
+    <RelativeLayout
+        android:layout_width="380dp"
+        android:layout_height="380dp"
         app:layout_constraintBottom_toBottomOf="parent"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLinearLayout"
-        app:layout_constraintVertical_bias="0.498" />
-
-    <ImageView
-        android:id="@+id/mainCircleIV"
-        android:layout_width="210dp"
-        android:layout_height="210dp"
-        android:background="@drawable/bg_rounded_corner_main"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLinearLayout" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias=".7">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/circular_shape"
+            android:indeterminate="false"
+            android:progressDrawable="@drawable/circular_progress_bar"
+            android:textAlignment="center" />
+
+
+        <ImageView
+            android:id="@+id/mainCircleIV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:layout_margin="38dp"
+            android:background="@drawable/bg_rounded_corner_main"
+            android:visibility="visible" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/countIV"
+            android:layout_width="82dp"
+            android:layout_height="90dp"
+            android:layout_alignBottom="@+id/mainCircleIV"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            app:backgroundTint="#1AD521"
+            app:strokeColor="#009506"
+            app:strokeWidth="2dp" />
+
+        <TextView
+            android:id="@+id/countMainTV"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/countSelectTv"
+            android:layout_alignStart="@+id/mainCircleIV"
+            android:layout_alignEnd="@+id/mainCircleIV"
+            android:layout_marginBottom="32dp"
+            android:fontFamily="sans-serif-condensed"
+            android:textAlignment="center"
+            android:textSize="62sp"
+            android:textStyle="bold"
+            tools:text="0" />
+
+        <TextView
+            android:id="@+id/countSelectTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/mainCircleIV"
+            android:layout_alignEnd="@+id/mainCircleIV"
+            android:layout_centerVertical="true"
+            android:gravity="center_horizontal"
+            android:textSize="16sp"
+            tools:text="Select :"
+            app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
+            app:layout_constraintStart_toStartOf="@+id/mainCircleIV"
+            app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
+
+        <ImageView
+            android:id="@+id/resetIV"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignEnd="@+id/mainCircleIV"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="25dp"
+            android:background="@drawable/bg_rounded_corner_reset"
+            android:padding="4dp"
+            android:src="@drawable/ic_refresh"
+            app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
+            app:layout_constraintStart_toEndOf="@+id/countIV"
+            app:layout_constraintTop_toBottomOf="@+id/countMainTV"
+            app:tint="@color/white" />
+
+    </RelativeLayout>
+
 
     <!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
-
-    <ImageView
-        android:id="@+id/countIV"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:background="@drawable/bg_rounded_corner_sub"
-        app:layout_constraintBottom_toBottomOf="@+id/mainCircleIV"
-        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
-        app:layout_constraintStart_toStartOf="@+id/mainCircleIV" />
-
-    <TextView
-        android:id="@+id/countMainTV"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Count: "
-        app:layout_constraintBottom_toTopOf="@+id/countIV"
-        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
-        app:layout_constraintStart_toStartOf="@+id/mainCircleIV"
-        app:layout_constraintTop_toTopOf="@+id/mainCircleIV" />
-
-    <TextView
-        android:id="@+id/countSelectTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:text="Select: "
-        android:textSize="16sp"
-        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
-        app:layout_constraintStart_toStartOf="@+id/mainCircleIV"
-        app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
-
-    <ImageView
-        android:id="@+id/resetIV"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="25dp"
-        android:layout_marginEnd="25dp"
-        android:background="@drawable/bg_rounded_corner_reset"
-        app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
-        app:layout_constraintStart_toEndOf="@+id/countIV"
-        app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
 
     <!--    <com.example.prayerapp.ui.native_template.TemplateView-->
     <!--        android:id="@+id/nativeAd"-->

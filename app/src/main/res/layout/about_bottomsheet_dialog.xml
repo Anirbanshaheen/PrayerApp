@@ -28,7 +28,7 @@
         <TextView
             android:id="@+id/aboutTV"
             android:padding="16dp"
-            android:text="We are excited to introduce the Auto Silent Prayer app, designed to enhance your prayer experience by allowing you to focus solely on your prayers. With automatic phone silencing during prayer times, you can immerse yourself fully in your spiritual practice without distractions.\n\nWe extend our heartfelt gratitude to Rezowan Bhai and Fahad Bhai for their invaluable contributions to the success of this app. Additionally, we express our appreciation to Naymul Ashfak for crafting the beautiful UI/UX that enhances the user experience.\n\nYour suggestions and feedback are invaluable to us, so please feel free to email us with any thoughts or ideas. Thank you for choosing Auto Silent Prayer to support your spiritual journey."
+            android:text="@string/about_app"
             android:textColor="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

@@ -148,35 +148,35 @@ class HomeFragment : Fragment() {
 
         if (System.currentTimeMillis() in ((fajrTimeInMilliseconds + (30 * 60000)) + 1)..(juhorTimeInMilliseconds + (3 * 3600000))) {
             binding.prayerBgIV.setImageResource(R.drawable.juhor)
-            binding.prayerNameTV.text = "Dhuhr Namaz"
+            binding.prayerNameTV.text = requireActivity().getString(R.string.dhuhr_time)
             binding.prayerTimeTV.text = prayerTimes.thuhr().twentyFourTo12HourConverter()
             binding.johorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
             binding.johorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             backgroundScreenGradient(R.drawable.juhor)
         }else if (System.currentTimeMillis() in ((juhorTimeInMilliseconds + (3 * 3600000)) + 1)..(asorTimeInMilliseconds + 3600000)) {
             binding.prayerBgIV.setImageResource(R.drawable.asor)
-            binding.prayerNameTV.text = "Asr Namaz"
+            binding.prayerNameTV.text = requireActivity().getString(R.string.asr_time)
             binding.prayerTimeTV.text = prayerTimes.assr().twentyFourTo12HourConverter()
             binding.asorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
             binding.asorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             backgroundScreenGradient(R.drawable.asor)
         }else if (System.currentTimeMillis() in ((asorTimeInMilliseconds + 3600000) + 1)..(magribTimeInMilliseconds + (20 * 60000))) {
             binding.prayerBgIV.setImageResource(R.drawable.magrib)
-            binding.prayerNameTV.text = "Maghrib Namaz"
+            binding.prayerNameTV.text = requireActivity().getString(R.string.maghrib_time)
             binding.prayerTimeTV.text = prayerTimes.maghrib().twentyFourTo12HourConverter()
             binding.magribCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
             binding.magribCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             backgroundScreenGradient(R.drawable.magrib)
         }else if (System.currentTimeMillis() in ((magribTimeInMilliseconds + (20 * 60000)) + 1)..(ishaTimeInMilliseconds + (5 * 3600000))) {
             binding.prayerBgIV.setImageResource(R.drawable.isha)
-            binding.prayerNameTV.text = "Isha Namaz"
+            binding.prayerNameTV.text = requireActivity().getString(R.string.isha_time)
             binding.prayerTimeTV.text = prayerTimes.ishaa().twentyFourTo12HourConverter()
             binding.eshaCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
             binding.eshaCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             backgroundScreenGradient(R.drawable.isha)
         }else if (System.currentTimeMillis() in ((ishaTimeInMilliseconds + (10 * 3600000)) + 1)..(fajrTimeInMilliseconds + (30 * 60000))) {
             binding.prayerBgIV.setImageResource(R.drawable.fazor)
-            binding.prayerNameTV.text = "Fajr Namaz"
+            binding.prayerNameTV.text = requireActivity().getString(R.string.fajr_time)
             binding.prayerTimeTV.text = prayerTimes.fajr().twentyFourTo12HourConverter()
             binding.fazorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
             binding.fazorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
@@ -231,15 +231,19 @@ class HomeFragment : Fragment() {
                     val darkVibrantSwatch = palette?.darkVibrantSwatch
                     if (vibrantSwatch != null) {
                         changeBackground(vibrantSwatch)
+                        prefs.statusBarColor = vibrantSwatch.rgb
                         mainActivity.changeStatusBarColor(vibrantSwatch.rgb)
                     } else if (lightVibrantSwatch != null) {
                         changeBackground(lightVibrantSwatch)
+                        prefs.statusBarColor = lightVibrantSwatch.rgb
                         mainActivity.changeStatusBarColor(lightVibrantSwatch.rgb)
                     } else if (dominantSwatch != null) {
                         changeBackground(dominantSwatch)
+                        prefs.statusBarColor = dominantSwatch.rgb
                         mainActivity.changeStatusBarColor(dominantSwatch.rgb)
                     } else if (darkVibrantSwatch != null) {
                         changeBackground(darkVibrantSwatch)
+                        prefs.statusBarColor = darkVibrantSwatch.rgb
                         mainActivity.changeStatusBarColor(darkVibrantSwatch.rgb)
                     }
                 }

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prayer App</string>
+
+    <string name="zero_degrees">০°</string>
+
+    <string name="degree_0_text">০</string>
+    <string name="degree_30_text">৩০</string>
+    <string name="degree_60_text">৬০</string>
+    <string name="degree_90_text">৯০</string>
+    <string name="degree_120_text">১২০</string>
+    <string name="degree_150_text">১৫০</string>
+    <string name="degree_180_text">১৮০</string>
+    <string name="degree_210_text">২১০</string>
+    <string name="degree_240_text">২৪০</string>
+    <string name="degree_270_text">২৭০</string>
+    <string name="degree_300_text">৩০০</string>
+    <string name="degree_330_text">৩৩০</string>
+    <string name="home">হোম</string>
+    <string name="count">গণনা</string>
+    <string name="compass">কম্পাস</string>
+    <string name="settings">সেটিংস</string>
+    <string name="about_app">
+        আমরা আপনাদের স্বাগত জানাই অটো সাইলেন্ট প্রার্থনা অ্যাপ্লিকেশানটিতে, যা আপনার প্রার্থনার সময় কেবল আপনার প্রার্থনায় মনোযোগ দেওয়ার অনুমতি দিয়ে আপনার প্রার্থনা অভিজ্ঞতা উন্নত করার জন্য ডিজাইন করা হয়েছে।  প্রার্থনার সময় স্বয়ংক্রিয় ফোন নিঃশব্দকরণের সাহায্যে, আপনি বিভ্রান্তি ছাড়াই সম্পূর্ণরূপে আপনার আধ্যাত্মিক অনুশীলনে নিজেকে নিমজ্জিত করতে পারবেন।\n\nএই অ্যাপ্লিকেশানটির সাফল্যে অসাধারণ অবদানের জন্য আমরা রেজাওয়ান ভাই এবং ফাহাদ ভাইকে আমাদের আন্তরিক কৃতজ্ঞতা জানাই।  অতিরিক্তভাবে, ব্যবহারকারী অভিজ্ঞতা উন্নত করে এমন সুন্দর UI/UX তৈরি করার জন্য আমরা নাইমুল আশফাকের প্রতি আমাদের কৃতজ্ঞতা প্রকাশ করি।\n\nআপনার পরামর্শ এবং প্রতিক্রিয়া আমাদের কাছে অমূল্য, তাই দয়া করে আপনার যে কোন চিন্তা বা ধারণা আমাদের সাথে ইমেল করতে দ্বিধা করবেন না।  আপনার আধ্যাত্মিক যাত্রায় সহায়তা করার জন্য অটো সাইলেন্ট প্রার্থনা বেছে নেওয়ার জন্য ধন্যবাদ।
+    </string>
+    <string name="counter">গণনাকারী</string>
+    <string name="subhanallah_n33">সুবহানাল্লাহ\n৩৩</string>
+    <string name="alhamdulliah_n33">আলহামদুলিল্লাহ\n৩৩</string>
+    <string name="allahu_akbar_n34">আল্লাহু আকবার\n৩৪</string>
+    <string name="fajr_time">ফজরের সময়</string>
+    <string name="dhuhr_time">জোহরের সময়</string>
+    <string name="asr_time">আসরের সময়</string>
+    <string name="maghrib_time">মাগরিবের সময়</string>
+    <string name="isha_time">এশার সময়</string>
+    <string name="privacy_policy">প্রাইভেসি পলিসি</string>
+    <string name="about">অ্যাবাউট</string>
+    <string name="language">ভাষা</string>
+</resources>

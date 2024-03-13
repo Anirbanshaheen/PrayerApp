@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.content.res.ColorStateList
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
@@ -24,6 +25,7 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.prayerapp.databinding.FragmentCompassBinding
+import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.ui.compass.CompassViewModel
 import com.example.prayerapp.ui.compass.RotationTarget
 import com.example.prayerapp.utils.exH
@@ -34,6 +36,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CompassFragment : Fragment(), SensorEventListener {
@@ -51,6 +54,14 @@ class CompassFragment : Fragment(), SensorEventListener {
     private var currentDegree = 0f
     private var currentDegreeNeedle = 0f
 
+    @Inject
+    lateinit var prefs: Prefs
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        prefs = Prefs(requireActivity())
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -61,6 +72,8 @@ class CompassFragment : Fragment(), SensorEventListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.compassTB.backgroundTintList = ColorStateList.valueOf(prefs.statusBarColor)
 
         init()
         observer()

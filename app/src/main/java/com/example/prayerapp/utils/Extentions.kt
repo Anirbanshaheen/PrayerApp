@@ -1,11 +1,14 @@
 package com.example.prayerapp.utils
 
 import android.Manifest
+import android.animation.ObjectAnimator
 import android.app.Activity
 import android.content.Context
 import android.content.pm.PackageManager
+import android.content.res.Configuration
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.annotation.ColorInt
@@ -81,4 +84,16 @@ fun Activity.changeStatusBarColor(@ColorInt color: Int, useLightContent: Boolean
         }
     } catch (e: Exception) {
     }
+}
+
+fun View.rotateClockwiseAnimated(degrees: Float = 360f, duration: Long = 800L) {
+    animate().rotationBy(degrees).setDuration(duration).start()
+}
+
+fun FragmentActivity.updateLocale(locale: Locale, isFirstTime: Boolean = true) {
+    val resources = resources
+    val configuration = Configuration(resources.configuration)
+    configuration.setLocale(locale)
+    resources.updateConfiguration(configuration, resources.displayMetrics)
+    if (!isFirstTime) recreate()
 }

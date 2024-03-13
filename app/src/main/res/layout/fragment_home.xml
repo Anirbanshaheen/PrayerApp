@@ -81,9 +81,10 @@
                         android:id="@+id/fazorNameTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Fajr Time"
+                        android:text="@string/fajr_time"
                         android:textSize="18sp" />
 
                     <TextView
@@ -125,9 +126,10 @@
                         android:id="@+id/juhorNameTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Dhuhr Time"
+                        android:text="@string/dhuhr_time"
                         android:textSize="18sp" />
 
                     <TextView
@@ -169,9 +171,10 @@
                         android:id="@+id/asorNameTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Asr Time"
+                        android:text="@string/asr_time"
                         android:textSize="18sp" />
 
                     <TextView
@@ -213,9 +216,10 @@
                         android:id="@+id/magribNameTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="8dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Maghrib Time"
+                        android:text="@string/maghrib_time"
                         android:textSize="18sp" />
 
                     <TextView
@@ -259,13 +263,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
-                        android:text="Isha Time"
+                        android:text="@string/isha_time"
                         android:textSize="18sp" />
 
                     <TextView
                         android:id="@+id/eshaTimeTV"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
                         android:layout_weight="1"
                         android:fontFamily="@font/font_card"
                         android:textSize="18sp"
@@ -275,17 +280,17 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-<!--            <com.google.android.gms.ads.AdView-->
-<!--                android:id="@+id/adView"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_alignParentBottom="true"-->
-<!--                android:layout_centerHorizontal="true"-->
-<!--                app:adSize="BANNER"-->
-<!--                app:adUnitId="ca-app-pub-3940256099942544/6300978111"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toBottomOf="@+id/eshaCV" />-->
+            <!--            <com.google.android.gms.ads.AdView-->
+            <!--                android:id="@+id/adView"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_alignParentBottom="true"-->
+            <!--                android:layout_centerHorizontal="true"-->
+            <!--                app:adSize="BANNER"-->
+            <!--                app:adUnitId="ca-app-pub-3940256099942544/6300978111"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/eshaCV" />-->
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

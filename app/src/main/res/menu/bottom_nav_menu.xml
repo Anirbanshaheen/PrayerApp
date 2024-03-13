@@ -3,17 +3,17 @@
     <item
         android:id="@+id/homeFragment"
         android:icon="@drawable/ic_home"
-        android:title="Home"/>
+        android:title="@string/home"/>
     <item
         android:id="@+id/countFragment"
         android:icon="@drawable/ic_baseline_album"
-        android:title="Count"/>
+        android:title="@string/count"/>
     <item
         android:id="@+id/compassFragment"
         android:icon="@drawable/ic_compass"
-        android:title="Compass"/>
+        android:title="@string/compass"/>
     <item
         android:id="@+id/settingsFragment"
         android:icon="@drawable/ic_settings"
-        android:title="Settings"/>
+        android:title="@string/settings"/>
 </menu>

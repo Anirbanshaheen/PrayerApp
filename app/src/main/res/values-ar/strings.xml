@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Prayer App</string>
+
+    <string name="zero_degrees">٠°</string>
+
+    <string name="degree_0_text">٠</string>
+    <string name="degree_30_text">٣٠</string>
+    <string name="degree_60_text">٦٠</string>
+    <string name="degree_90_text">٩٠</string>
+    <string name="degree_120_text">١٢٠</string>
+    <string name="degree_150_text">١٥٠</string>
+    <string name="degree_180_text">١٨٠</string>
+    <string name="degree_210_text">٢١٠</string>
+    <string name="degree_240_text">٢٤٠</string>
+    <string name="degree_270_text">٢٧٠</string>
+    <string name="degree_300_text">٣٠٠</string>
+    <string name="degree_330_text">٣٣٠</string>
+    <string name="home">الرئيسية</string>
+    <string name="count">عدد</string>
+    <string name="compass">بوصلة</string>
+    <string name="settings">إعدادات</string>
+    <string name="about_app">يسعدنا أن نقدم لكم تطبيق صلاة صامتة تلقائيًا، المصمم لتحسين تجربة صلاتكم من خلال السماح لكم بالتركيز فقط على صلواتكم. بفضل كتم صوت الهاتف التلقائي أثناء أوقات الصلاة، يمكنك الانغماس الكامل في ممارساتكم الروحية دون أي إزعاج.
+
+نتقدم بخالص امتناننا إلى الأخوين رضوان وفهد على مساهماتهما القيمة في نجاح هذا التطبيق. بالإضافة إلى ذلك، نعرب عن تقديرنا إلى نعيم أشفق على تصميم واجهة مستخدم/تجربة مستخدم جميلة تعزز تجربة المستخدم.
+
+آرائكم وتعليقاتكم لا تقدر بثمن بالنسبة لنا، لذلك لا تترددوا في مراسلتنا عبر البريد الإلكتروني بأي أفكار أو اقتراحات. نشكركم على اختيار صلاة صامتة تلقائيًا لدعم رحلتكم الروحية.</string>
+    <string name="counter">عداد</string>
+    <string name="subhanallah_n33">سبحان الله\n33</string>
+    <string name="alhamdulliah_n33">الحمد لله\n33</string>
+    <string name="allahu_akbar_n34">الله أكبر\n34</string> <string name="fajr_time">وقت الفجر</string>
+    <string name="dhuhr_time">وقت الظهر</string>
+    <string name="asr_time">وقت العصر</string>
+    <string name="maghrib_time">وقت المغرب</string>
+    <string name="isha_time">وقت العشاء</string>
+    <string name="privacy_policy">سياسة الخصوصية</string>
+    <string name="about">حول</string>
+    <string name="language">لغة</string>
+</resources>

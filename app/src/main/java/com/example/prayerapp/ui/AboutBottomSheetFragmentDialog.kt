@@ -8,9 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.prayerapp.databinding.AboutBottomsheetDialogBinding
+import com.example.prayerapp.prefs.Prefs
+import com.example.prayerapp.utils.updateLocale
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.UnstableApi
+import java.util.Locale
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AboutBottomSheetFragmentDialog : BottomSheetDialogFragment() {
 
     private lateinit var binding: AboutBottomsheetDialogBinding

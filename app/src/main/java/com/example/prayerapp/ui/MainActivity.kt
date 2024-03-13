@@ -24,11 +24,14 @@ import com.example.prayerapp.databinding.ActivityMainBinding
 import com.example.prayerapp.model.FragmentState
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.utils.changeFragment
+import com.example.prayerapp.utils.changeStatusBarColor
+import com.example.prayerapp.utils.updateLocale
 import com.example.prayerapp.viewmodel.PrayerViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -42,6 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var prefs: Prefs
+
 
     companion object {
         lateinit var mainActivity: MainActivity
@@ -57,6 +61,11 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        prefs = Prefs(this)
+        updateLocale(Locale(prefs.appLanguage))
+        if (prefs.statusBarColor != 0) changeStatusBarColor(prefs.statusBarColor)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
