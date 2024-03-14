@@ -9,9 +9,12 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
+<!--    <uses-permission android:name="android.permission.VIBRATE" />-->
+
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
+        android:name=".PrayersApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -35,10 +38,72 @@
 <!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
 <!--            android:value="ca-app-pub-3940256099942544~3347511713" />-->
 
+<!--        <activity-->
+<!--            android:name=".widget.WidgetActivity"-->
+<!--            android:exported="true"-->
+<!--            android:fitsSystemWindows="true"-->
+<!--            android:launchMode="singleTop"/>-->
+
         <receiver
             android:enabled="true"
             android:exported="false"
             android:name=".receiver.PrayersAlertReceiver"/>
+
+<!--        <receiver-->
+<!--            android:name=".widget.TasbihatWidget"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/tasbihat_label">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/info_for_tasbihat" />-->
+<!--        </receiver>-->
+
+<!--        &lt;!&ndash; Zekr widget &ndash;&gt;-->
+<!--        <receiver-->
+<!--            android:name=".widget.ZekrWidget"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/zekr_label">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--                <action android:name="android.appwidget.action.WIDGET_BUTTON" />-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />-->
+<!--                <action android:name="android.appwidget.action.ACTION_AUTO_UPDATE_WIDGET" />-->
+<!--                <action android:name="android.intent.action.DATE_CHANGED" />-->
+<!--                <action android:name="android.intent.action.TIME_SET" />-->
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/info_for_zekr" />-->
+<!--        </receiver>-->
+
+<!--        &lt;!&ndash; Salavat widget &ndash;&gt;-->
+<!--        <receiver-->
+<!--            android:name=".widget.SalavatWidget"-->
+<!--            android:exported="true"-->
+<!--            android:label="@string/salavat_label">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--                <action android:name="android.appwidget.action.WIDGET_BUTTON" />-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />-->
+<!--                <action android:name="android.appwidget.action.ACTION_AUTO_UPDATE_WIDGET" />-->
+<!--                <action android:name="android.intent.action.DATE_CHANGED" />-->
+<!--                <action android:name="android.intent.action.TIME_SET" />-->
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/info_for_salavat" />-->
+<!--        </receiver>-->
+
     </application>
 
 </manifest>

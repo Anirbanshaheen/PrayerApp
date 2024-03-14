@@ -34,7 +34,7 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
     lateinit var prefs: Prefs
 
     override fun doWork(): Result {
-        prefs = Prefs(context)
+        //prefs = Prefs(context)
         return try {
             //Log.d("TAKE_TIME", "Prayers Worker call")
             alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager

@@ -20,7 +20,7 @@
     <LinearLayout
         android:id="@+id/buttonLinearLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +47,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="16sp"
+                    android:autoSizeMinTextSize="14sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/font_card"
                     android:gravity="center"
                     android:text="@string/subhanallah_n33"
@@ -54,8 +58,10 @@
                     android:textSize="16sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -82,6 +88,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:autoSizeMaxTextSize="16sp"
+                    app:autoSizeMinTextSize="12sp"
+                    app:autoSizeStepGranularity="1sp"
+                    app:autoSizeTextType="uniform"
                     android:fontFamily="@font/font_card"
                     android:gravity="center"
                     android:text="@string/alhamdulliah_n33"
@@ -117,6 +127,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:autoSizeMaxTextSize="16sp"
+                    android:autoSizeMinTextSize="14sp"
+                    android:autoSizeStepGranularity="2sp"
+                    android:autoSizeTextType="uniform"
                     android:fontFamily="@font/font_card"
                     android:gravity="center"
                     android:text="@string/allahu_akbar_n34"
@@ -223,10 +237,10 @@
             android:layout_centerVertical="true"
             android:gravity="center_horizontal"
             android:textSize="16sp"
-            tools:text="Select :"
             app:layout_constraintEnd_toEndOf="@+id/mainCircleIV"
             app:layout_constraintStart_toStartOf="@+id/mainCircleIV"
-            app:layout_constraintTop_toBottomOf="@+id/countMainTV" />
+            app:layout_constraintTop_toBottomOf="@+id/countMainTV"
+            tools:text="Select :" />
 
         <ImageView
             android:id="@+id/resetIV"

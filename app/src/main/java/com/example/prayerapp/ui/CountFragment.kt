@@ -37,7 +37,7 @@ class CountFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentCountBinding.inflate(inflater)
-        prefs = Prefs(requireContext())
+        //prefs = Prefs(requireContext())
         return binding.root
     }
 
@@ -45,7 +45,6 @@ class CountFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         //MobileAds.initialize(requireContext()) {}
-
         binding.counterTB.backgroundTintList = ColorStateList.valueOf(prefs.statusBarColor)
 
         initialize()
@@ -57,15 +56,14 @@ class CountFragment : Fragment() {
             binding.buttonOne.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             binding.buttonTwo.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.buttonThree.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.progressBar.max = 33
             prefs.selectedValue = "Alhamdulliah"
 
             var tasbihModel = prefs.get<Prefs.TasbihModel>(prefs.selectedValue)
             Log.d("check_counter","$tasbihModel")
 
             if (tasbihModel != null){
-                tasbihModel?.name = "Alhamdulliah"
-                tasbihModel?.selectedBtnText = "Alhamdulliah"
+                tasbihModel.name = "Alhamdulliah"
+                tasbihModel.selectedBtnText = "Alhamdulliah"
             }else{
                 tasbihModel = Prefs.TasbihModel(totalCount = 0, maxCount = 33, name = "Alhamdulliah", selectedBtnText = "Alhamdulliah")
             }
@@ -80,7 +78,6 @@ class CountFragment : Fragment() {
             binding.buttonTwo.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             binding.buttonOne.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.buttonThree.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.progressBar.max = 33
             prefs.selectedValue = "Allahu Akbar"
 
             var tasbihModel = prefs.get<Prefs.TasbihModel>(prefs.selectedValue)
@@ -89,7 +86,7 @@ class CountFragment : Fragment() {
                 tasbihModel?.name = "Allahu Akbar"
                 tasbihModel?.selectedBtnText = "Allahu Akbar"
             }else{
-                tasbihModel = Prefs.TasbihModel(totalCount = 0, maxCount = 33, name = "Allahu Akbar", selectedBtnText = "Allahu Akbar")
+                tasbihModel = Prefs.TasbihModel(totalCount = 0, maxCount = 34, name = "Allahu Akbar", selectedBtnText = "Allahu Akbar")
             }
 
             prefs.save(tasbihModel, prefs.selectedValue)
@@ -103,7 +100,6 @@ class CountFragment : Fragment() {
             binding.buttonThree.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
             binding.buttonOne.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
             binding.buttonTwo.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.white))
-            binding.progressBar.max = 33
             prefs.selectedValue = "Subhanallah"
 
             var tasbihModel = prefs.get<Prefs.TasbihModel>(prefs.selectedValue)
@@ -121,6 +117,10 @@ class CountFragment : Fragment() {
 
             counter()
         }
+
+        var tasbihModel = prefs.get<Prefs.TasbihModel>(prefs.selectedValue)
+        Log.d("check_counter","$tasbihModel")
+        if (tasbihModel == null) binding.buttonThree.performClick()
     }
 
     private fun initialize() {
@@ -166,7 +166,13 @@ class CountFragment : Fragment() {
     private fun counter() {
         val tasbihModel = prefs.get<Prefs.TasbihModel>(prefs.selectedValue)
         val totalCount = tasbihModel?.totalCount?:0
-        binding.progressBar.max = tasbihModel?.maxCount?:33
+        val maxCount = when(prefs.selectedValue){
+            "Subhanallah" -> 33
+            "Alhamdulliah" -> 33
+            "Allahu Akbar" -> 34
+            else -> {33}
+        }
+        binding.progressBar.max = maxCount
         binding.progressBar.progress = totalCount
         binding.countMainTV.text = "${totalCount}"
         binding.countIV.setOnClickListener {

@@ -7,6 +7,8 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.os.Build
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.util.Log
 import android.view.View
 import android.view.WindowInsetsController
@@ -97,3 +99,21 @@ fun FragmentActivity.updateLocale(locale: Locale, isFirstTime: Boolean = true) {
     resources.updateConfiguration(configuration, resources.displayMetrics)
     if (!isFirstTime) recreate()
 }
+
+//fun Context.vibratePhone(duration: Long = 25) {
+//    try {
+//        val vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+//        if (Build.VERSION.SDK_INT >= 26) {
+//            vibrator.vibrate(
+//                VibrationEffect.createOneShot(
+//                    duration,
+//                    VibrationEffect.DEFAULT_AMPLITUDE
+//                )
+//            )
+//        } else {
+//            vibrator.vibrate(duration)
+//        }
+//    } catch (e: Exception) {
+//        Log.e("Vibration Exception", e.message.toString())
+//    }
+//}

@@ -22,8 +22,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentCompassBinding
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.ui.compass.CompassViewModel
@@ -59,7 +61,7 @@ class CompassFragment : Fragment(), SensorEventListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs = Prefs(requireActivity())
+        //prefs = Prefs(requireActivity())
     }
 
     override fun onCreateView(
@@ -159,7 +161,10 @@ class CompassFragment : Fragment(), SensorEventListener {
                         currentLocation = location.result
                         kotlin.runCatching { compassViewModel.getLocationAddress(requireContext(), currentLocation) }
                         kotlin.runCatching { sensorManager = requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
-                        if (sensorManager == null) return@addOnCompleteListener
+                        if (sensorManager == null) {
+                            Toast.makeText(requireContext(), "No sensor available!", Toast.LENGTH_LONG).show()
+                            return@addOnCompleteListener
+                        }
                         sensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION) ?: sensor
                         if (sensor == null) return@addOnCompleteListener
                         sensorManager?.registerListener(
@@ -169,7 +174,7 @@ class CompassFragment : Fragment(), SensorEventListener {
                     }
                 }
             } else {
-                Toast.makeText(requireActivity(), "Turn on location", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_LONG).show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
             }

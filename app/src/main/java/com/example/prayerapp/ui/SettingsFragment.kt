@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentSettingsBinding
@@ -30,7 +31,7 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        prefs = Prefs(requireActivity())
+        //prefs = Prefs(requireActivity())
         arguments?.let {
 
         }

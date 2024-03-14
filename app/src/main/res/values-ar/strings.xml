@@ -17,7 +17,7 @@
     <string name="degree_300_text">٣٠٠</string>
     <string name="degree_330_text">٣٣٠</string>
     <string name="home">الرئيسية</string>
-    <string name="count">عدد</string>
+    <string name="count">التسبيح</string>
     <string name="compass">بوصلة</string>
     <string name="settings">إعدادات</string>
     <string name="about_app">يسعدنا أن نقدم لكم تطبيق صلاة صامتة تلقائيًا، المصمم لتحسين تجربة صلاتكم من خلال السماح لكم بالتركيز فقط على صلواتكم. بفضل كتم صوت الهاتف التلقائي أثناء أوقات الصلاة، يمكنك الانغماس الكامل في ممارساتكم الروحية دون أي إزعاج.
@@ -25,7 +25,7 @@
 نتقدم بخالص امتناننا إلى الأخوين رضوان وفهد على مساهماتهما القيمة في نجاح هذا التطبيق. بالإضافة إلى ذلك، نعرب عن تقديرنا إلى نعيم أشفق على تصميم واجهة مستخدم/تجربة مستخدم جميلة تعزز تجربة المستخدم.
 
 آرائكم وتعليقاتكم لا تقدر بثمن بالنسبة لنا، لذلك لا تترددوا في مراسلتنا عبر البريد الإلكتروني بأي أفكار أو اقتراحات. نشكركم على اختيار صلاة صامتة تلقائيًا لدعم رحلتكم الروحية.</string>
-    <string name="counter">عداد</string>
+    <string name="counter">التسبيح</string>
     <string name="subhanallah_n33">سبحان الله\n33</string>
     <string name="alhamdulliah_n33">الحمد لله\n33</string>
     <string name="allahu_akbar_n34">الله أكبر\n34</string> <string name="fajr_time">وقت الفجر</string>
@@ -36,4 +36,36 @@
     <string name="privacy_policy">سياسة الخصوصية</string>
     <string name="about">حول</string>
     <string name="language">لغة</string>
+
+
+    <string name="salavat_label">صلوات</string>
+    <string name="zekr_label">ذکر روز</string>
+    <string name="tasbihat_label">تسبیحات</string>
+    <string name="today_salavat">صلوات های روز</string>
+    <string name="SALabel">سُبحانَ اَللّه</string>
+    <string name="today_tasbihat">تسبیحات حضرت زهرا (س)</string>
+    <string name="AALabel">اَللّهُ اَکبَر</string>
+    <string name="HALabel">اَلحَمدُلِلّه</string>
+    <string name="today_zekr">ذکر روز</string>
+
+    <!-- Bazaar -->
+    <string name="bazaarStarLink">bazaar://details?id=ir.rezarasuolzadeh.zekraneh</string>
+    <string name="bazaarPackage">com.farsitel.bazaar</string>
+    <string name="install_bazaar_notice">ابتدا برنامه بازار را نصب کنید</string>
+    <string name="share_process_failed">همرسانی مقدور نیست</string>
+    <string name="tasbihat_has_been_reset">تسبیحات حضرت زهرا (س) بازنشانی شد</string>
+    <string name="salavat_has_been_reset">صلوات های روز بازنشانی شد</string>
+    <string name="introduce_to_friends">معرفی به دوستان</string>
+
+    <!-- Multiline -->
+    <string name="share_app_with_friends" formatted="false">
+                        ذکرانه، ذکر شمار ساده و شیک
+                        \n\n
+                        اگه برای ذکر روزانه میخوای به جای استفاده از اپلیکیشن های مختلف، از یه ویجت ساده و جمع و جور استفاده کنی میتونی همین الآن به راحتی ویجت ذکرانه رو نصبش کنی و ازش استفاده کنی.
+                        \n\n
+                        لینک نصب:
+                        \n
+                        http://cafebazaar.ir/app/?id=ir.rezarasuolzadeh.zekraneh
+    </string>
+    <string name="zekr_has_been_reset">ذکر روز بازنشانی شد</string>
 </resources>

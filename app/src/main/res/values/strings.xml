@@ -16,11 +16,11 @@
     <string name="degree_300_text">300</string>
     <string name="degree_330_text">330</string>
     <string name="home">Home</string>
-    <string name="count">Count</string>
+    <string name="count">Tasbih</string>
     <string name="compass">Compass</string>
     <string name="settings">Settings</string>
     <string name="about_app">We are excited to introduce the Auto Silent Prayer app, designed to enhance your prayer experience by allowing you to focus solely on your prayers. With automatic phone silencing during prayer times, you can immerse yourself fully in your spiritual practice without distractions.\n\nWe extend our heartfelt gratitude to Rezowan Bhai and Fahad Bhai for their invaluable contributions to the success of this app. Additionally, we express our appreciation to Naymul Ashfak for crafting the beautiful UI/UX that enhances the user experience.\n\nYour suggestions and feedback are invaluable to us, so please feel free to email us with any thoughts or ideas. Thank you for choosing Auto Silent Prayer to support your spiritual journey.</string>
-    <string name="counter">Counter</string>
+    <string name="counter">Tasbih</string>
     <string name="subhanallah_n33">Subhanallah\n33</string>
     <string name="alhamdulliah_n33">Alhamdulliah\n33</string>
     <string name="allahu_akbar_n34">Allahu Akbar\n34</string>
@@ -32,4 +32,37 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="about">About</string>
     <string name="language">Language</string>
+
+
+    <string name="salavat_label">صلوات</string>
+    <string name="zekr_label">ذکر روز</string>
+    <string name="tasbihat_label">تسبیحات</string>
+    <string name="today_salavat">صلوات های روز</string>
+    <string name="SALabel">سُبحانَ اَللّه</string>
+    <string name="today_tasbihat">تسبیحات حضرت زهرا (س)</string>
+    <string name="AALabel">اَللّهُ اَکبَر</string>
+    <string name="HALabel">اَلحَمدُلِلّه</string>
+    <string name="today_zekr">ذکر روز</string>
+
+    <!-- Bazaar -->
+    <string name="bazaarStarLink">bazaar://details?id=ir.rezarasuolzadeh.zekraneh</string>
+    <string name="bazaarPackage">com.farsitel.bazaar</string>
+    <string name="install_bazaar_notice">ابتدا برنامه بازار را نصب کنید</string>
+    <string name="share_process_failed">همرسانی مقدور نیست</string>
+    <string name="tasbihat_has_been_reset">تسبیحات حضرت زهرا (س) بازنشانی شد</string>
+    <string name="salavat_has_been_reset">صلوات های روز بازنشانی شد</string>
+    <string name="introduce_to_friends">معرفی به دوستان</string>
+
+    <!-- Multiline -->
+    <string name="share_app_with_friends" formatted="false">
+                        ذکرانه، ذکر شمار ساده و شیک
+                        \n\n
+                        اگه برای ذکر روزانه میخوای به جای استفاده از اپلیکیشن های مختلف، از یه ویجت ساده و جمع و جور استفاده کنی میتونی همین الآن به راحتی ویجت ذکرانه رو نصبش کنی و ازش استفاده کنی.
+                        \n\n
+                        لینک نصب:
+                        \n
+                        http://cafebazaar.ir/app/?id=ir.rezarasuolzadeh.zekraneh
+    </string>
+    <string name="zekr_has_been_reset">ذکر روز بازنشانی شد</string>
+
 </resources>

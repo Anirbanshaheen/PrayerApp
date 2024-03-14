@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        prefs = Prefs(this)
+        //prefs = Prefs(this)
         updateLocale(Locale(prefs.appLanguage))
         if (prefs.statusBarColor != 0) changeStatusBarColor(prefs.statusBarColor)
 

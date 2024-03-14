@@ -73,7 +73,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
-        prefs = Prefs(requireContext())
+        //prefs = Prefs(requireContext())
         return binding.root
     }
 
@@ -139,6 +139,7 @@ class HomeFragment : Fragment() {
         val location = Location(23.8103, 90.4125, +6.0, 0)
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
+        Log.d("showTime_tag","${azan.getImsaak(today)}")
 
         val fajrTimeInMilliseconds = timeToMilliSecond(prayerTimes.fajr().hour, prayerTimes.fajr().minute)
         val juhorTimeInMilliseconds = timeToMilliSecond(prayerTimes.thuhr().hour, prayerTimes.thuhr().minute)

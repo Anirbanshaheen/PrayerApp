@@ -2,8 +2,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    id("kotlinx-serialization")
-    //id("com.google.dagger.hilt.android")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -51,7 +50,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-location:21.2.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0-alpha3")
 
     // Work-Manager
     implementation("androidx.work:work-runtime-ktx:2.9.0")
@@ -68,6 +67,7 @@ dependencies {
 
     // Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.50")
+    kapt("com.google.dagger:hilt-android-compiler:2.50")
 
     // viewModels & activity
     implementation("androidx.fragment:fragment-ktx:1.6.2")
@@ -83,7 +83,6 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
     // Json
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("com.google.code.gson:gson:2.10.1")
 
     // Ad
@@ -92,4 +91,6 @@ dependencies {
     //firebase crashlytics
     implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.2")
     implementation("com.google.firebase:firebase-analytics:21.5.1")
+
+    //implementation("com.orhanobut:hawk:2.0.1")
 }

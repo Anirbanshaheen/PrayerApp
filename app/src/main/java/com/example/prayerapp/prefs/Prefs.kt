@@ -60,7 +60,7 @@ class Prefs @Inject constructor(@ApplicationContext private val context: Context
     data class TasbihModel(
         var totalCount: Int = 0,
         var maxCount: Int = 33,
-        var name: String = "Alhamdulliah",
-        var selectedBtnText: String = "Alhamdulliah"
+        var name: String = "Subhanallah",
+        var selectedBtnText: String = "Subhanallah"
     )
 }

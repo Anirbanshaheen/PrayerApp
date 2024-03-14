@@ -12,9 +12,10 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.Locale
+import javax.inject.Inject
 
 @HiltViewModel
-class CompassViewModel : ViewModel() {
+class CompassViewModel @Inject constructor() : ViewModel() {
     var isFacingQibla = MutableLiveData(false)
     var qilbaRotation = MutableLiveData(RotationTarget(0f, 0f))
     var compassRotation = MutableLiveData(RotationTarget(0f, 0f))
