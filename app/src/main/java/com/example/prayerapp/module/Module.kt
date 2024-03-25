@@ -2,6 +2,7 @@ package com.example.prayerapp.module
 
 import android.content.Context
 import com.example.prayerapp.prefs.Prefs
+import com.example.prayerapp.receiver.PrayersAlertReceiver
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

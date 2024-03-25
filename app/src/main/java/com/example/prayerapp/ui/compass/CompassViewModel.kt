@@ -28,20 +28,20 @@ class CompassViewModel @Inject constructor() : ViewModel() {
         compassRotation.value = compass
     }
 
-    fun getLocationAddress(context: Context, location: Location) {
+    fun getLocationAddress(context: Context, latitude: Double, longitude: Double) {
         viewModelScope.launch {
             Geocoder(context, Locale.getDefault()).apply {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                     getFromLocation(
-                        location.latitude,
-                        location.longitude,
+                        latitude,
+                        longitude,
                         1,
                         object : Geocoder.GeocodeListener {
                             override fun onGeocode(addresses: MutableList<Address>) {
-                                addresses.first()?.let {
+                                addresses.first().let {
                                     locationAddress.value = buildString {
                                         append(it.locality).append(", ")
-                                        append(it.subAdminArea)
+                                        append(it.getAddressLine(0))
                                     }
                                 }
                             }
@@ -53,10 +53,10 @@ class CompassViewModel @Inject constructor() : ViewModel() {
                         })
                 } else {
                     try {
-                        getFromLocation(location.latitude, location.longitude, 1)?.first()?.let {
+                        getFromLocation(latitude, longitude, 1)?.first()?.let {
                             locationAddress.value = buildString {
                                 append(it.locality).append(", ")
-                                append(it.subAdminArea)
+                                append(it.getAddressLine(0))
                             }
                         }
                     }catch (e: Exception) {

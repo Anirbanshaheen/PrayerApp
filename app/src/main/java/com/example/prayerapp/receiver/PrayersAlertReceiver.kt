@@ -1,118 +1,74 @@
 package com.example.prayerapp.receiver
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.media.AudioAttributes
-import android.media.RingtoneManager
-import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
-import androidx.core.app.NotificationCompat
-import com.example.prayerapp.R
+import android.widget.Toast
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequest
+import androidx.work.WorkManager
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.ui.DndHandler
-import com.example.prayerapp.ui.MainActivity
+import com.example.prayerapp.worker.DndDisableWorker
+import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class PrayersAlertReceiver : BroadcastReceiver() {
+
     private val dndHandler by lazy { DndHandler() }
 
     @Inject
     lateinit var prefs: Prefs
 
-    override fun onReceive(context: Context, intent: Intent) {
+    override fun onReceive(context: Context?, intent: Intent?) {
         Log.d("CHECK_TIME", "Prayers call")
         Log.d("TAKE_TIME", "Broadcast Receiver call")
-        sendNotification(context, intent)
-        changeRingingMode(context, intent)
+        dNdMode(context, intent)
     }
 
-//    private fun changeRingingMode(context: Context, intent: Intent) {
-//        val audioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-//        audioManager.ringerMode = AudioManager.RINGER_MODE_VIBRATE
-//        Log.d("CHECK_TIME", "user delay time : ${intent.getIntExtra("DELAY_TIME", (60000 * 15)).toLong()}")
-//        Handler(Looper.getMainLooper()).postDelayed({
-//            audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
-//            Log.d("CHECK_TIME", "Back to normal mode")
-//        }, intent.getIntExtra("DELAY_TIME", (60000 * 15)).toLong())
-//        // audioManager.ringerMode = AudioManager.RINGER_MODE_VIBRATE
-//        // audioManager.ringerMode = AudioManager.RINGER_MODE_NORMAL
-//    }
+    private fun dNdMode(context: Context?, intent: Intent?) {
+        Log.d("CHECK_TIME", "user NAME : ${intent?.getStringExtra("NAME")}")
+        Log.d("CHECK_TIME", "user ID : ${intent?.getIntExtra("ID", 0)}")
+        Log.d("CHECK_TIME", "user delay time : ${intent?.getIntExtra("DELAY_TIME", 0)}")
+        context?.let {
+            if (dndHandler.isDndEnabled(context)) {
+                dndHandler.enableDndMode(context)
+                dndHandler.sendNotification(context, intent)
+            } else {
+                Toast.makeText(context, "DND mode already active!!", Toast.LENGTH_LONG).show()
+            }
 
-    private fun changeRingingMode(context: Context, intent: Intent) {
-        dndHandler.enableDndMode(context)
+            val delay = intent?.getIntExtra("DELAY_TIME",0)!!.toLong()
+            val workRequest = OneTimeWorkRequest.Builder(DndDisableWorker::class.java)
+                .setInitialDelay(delay, TimeUnit.MILLISECONDS)
+                .setInputData(
+                    Data.Builder()
+                        .apply {
+                            putString("NAME", intent.getStringExtra("NAME"))
+                            putInt("ID", intent.getIntExtra("ID", 0))
+                            putLong("DELAY_TIME", delay)
+                        }
+                        .build()
+                )
+                .build()
+            WorkManager.getInstance(context).enqueue(workRequest)
 
-        Log.d(
-            "CHECK_TIME",
-            "user delay time : ${intent.getIntExtra("DELAY_TIME", (60000 * 15)).toLong()}"
-        )
-        Handler(Looper.getMainLooper()).postDelayed({
-            dndHandler.disableDndMode(context)
-            Log.d("CHECK_TIME", "Back to normal mode")
-        }, intent.getIntExtra("DELAY_TIME", (60000 * 15)).toLong())
-    }
 
-    private fun sendNotification(context: Context, i: Intent) {
-
-        val id = i.getIntExtra("ID", 1)
-        val intent = Intent(context, MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        intent.putExtra(NOTIFICATION_ID, id)
-
-        val notificationManager =
-            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-
-        val titleNotification = i.getStringExtra("NAME")
-        val subtitleNotification = "Your Phone Is Going To Silent Mode Now."
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
-        } else {
-            PendingIntent.getActivity(
-                context,
-                0,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
+//            Handler(Looper.getMainLooper()).postDelayed({
+//                if (dndHandler.isDndEnabled(it)) {
+//                    dndHandler.disableDndMode(context)
+//                    sendNotification(context, intent)
+//                    Log.d("CHECK_TIME", "Back to normal mode")
+//                }else{
+//                    Log.d("CHECK_TIME", "normal mode")
+//                    Toast.makeText(context, "DND mode already deactivate!!", Toast.LENGTH_LONG).show()
+//                }
+//            }, intent?.getIntExtra("DELAY_TIME", (60000 * 15))!!.toLong())
         }
-        val notification = NotificationCompat.Builder(context, NOTIFICATION_CHANNEL)
-            //.setLargeIcon(bitmap)
-            .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentTitle(titleNotification).setContentText(subtitleNotification)
-            .setDefaults(NotificationCompat.DEFAULT_ALL).setContentIntent(pendingIntent)
-            .setAutoCancel(true)
-
-        notification.priority = NotificationCompat.PRIORITY_MAX
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            notification.setChannelId(NOTIFICATION_CHANNEL)
-
-            val ringtoneManager = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION)
-            val audioAttributes =
-                AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_NOTIFICATION_RINGTONE)
-                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build()
-
-            val channel = NotificationChannel(
-                NOTIFICATION_CHANNEL,
-                NOTIFICATION_NAME,
-                NotificationManager.IMPORTANCE_HIGH
-            )
-
-            channel.enableLights(true)
-            channel.lightColor = Color.RED
-            channel.enableVibration(true)
-            channel.vibrationPattern = longArrayOf(100, 200, 300, 400, 500, 400, 300, 200, 400)
-            channel.setSound(ringtoneManager, audioAttributes)
-            notificationManager.createNotificationChannel(channel)
-        }
-
-        notificationManager.notify(id, notification.build())
     }
+
 
     companion object {
         const val NOTIFICATION_ID = "appName_notification_id"

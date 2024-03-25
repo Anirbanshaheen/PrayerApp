@@ -1,11 +1,22 @@
 package com.example.prayerapp.ui
 
+//import com.google.android.gms.ads.AdListener
+//import com.google.android.gms.ads.AdLoader
+//import com.google.android.gms.ads.AdRequest
+//import com.google.android.gms.ads.MobileAds
 import android.Manifest
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.Activity.RESULT_OK
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
+import android.hardware.Sensor
+import android.hardware.SensorManager
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -13,10 +24,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.palette.graphics.Palette
 import androidx.work.BackoffPolicy
 import androidx.work.Constraints
@@ -35,13 +50,16 @@ import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentHomeBinding
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.ui.MainActivity.Companion.mainActivity
+import com.example.prayerapp.ui.compass.CompassViewModel
 import com.example.prayerapp.utils.changeStatusBarColor
 import com.example.prayerapp.utils.twentyFourTo12HourConverter
 import com.example.prayerapp.worker.PrayersWorker
-//import com.google.android.gms.ads.AdListener
-//import com.google.android.gms.ads.AdLoader
-//import com.google.android.gms.ads.AdRequest
-//import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.common.api.ResolvableApiException
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.LocationSettingsRequest
+import com.google.android.gms.location.Priority
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.GregorianCalendar
@@ -52,9 +70,19 @@ import javax.inject.Inject
 class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
+    private val compassViewModel by activityViewModels<CompassViewModel>()
+    private lateinit var a: MainActivity
+
     private lateinit var workManager: WorkManager
     private lateinit var periodicWorkRequest: PeriodicWorkRequest
+    private lateinit var notificationManager: NotificationManager
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+    val PERMISSION_ID = 42
+    private lateinit var currentLocation: android.location.Location
+    private var sensorManager: SensorManager? = null
+    private var sensor: Sensor? = null
     private val WORKER_TAG = "PRAYERS_WORKER"
+    private val WORKER_NAME = "WORKER_NAME"
 //    lateinit var adRequest : AdRequest
 //    lateinit var adLoader: AdLoader
 
@@ -66,6 +94,12 @@ class HomeFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         isPermission = isGranted
+    }
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        a = (requireActivity() as MainActivity)
     }
 
     override fun onCreateView(
@@ -83,22 +117,39 @@ class HomeFragment : Fragment() {
         //MobileAds.initialize(requireContext()) {}
 
         initialize()
+        locationOn()
         dailyOneTimeRunWorkerTrigger()
     }
 
-//    override fun onAttach(context: Context) {
-//        super.onAttach(context)
-//
-//    }
+    private fun locationOn() {
+        if (notificationManager.isNotificationPolicyAccessGranted) {
+            a.myLocationManager?.initialize()
+        }
 
-//    override fun onDetach() {
-//        super.onDetach()
-//    }
+        a.myLocationManager?.locationCallback = object : (android.location.Location?) -> Unit {
+            override fun invoke(location: android.location.Location?) {
+                prefs.currentLat = location?.latitude ?: 23.8103  // default dhaka location
+                prefs.currentLon = location?.longitude ?: 90.4125
+                Log.d("locationCallback", "\nlatitude: ${prefs.currentLat}\nlongitude: ${prefs.currentLon}")
+            }
+        }
+
+        a.myLocationManager?.retryPermissionCallback = object : (Boolean) -> Unit {
+            override fun invoke(isGranted: Boolean) {
+                binding.reTryBtn.isVisible = isGranted
+            }
+        }
+
+        binding.reTryBtn.setOnClickListener {
+            a.myLocationManager?.reTryPermission()
+        }
+    }
 
     private fun initialize() {
         //adShow()
-        setDNDModePolicy()
+        notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         checkPermission()
+        setDNDModePolicy()
         showTime()
     }
 
@@ -113,11 +164,27 @@ class HomeFragment : Fragment() {
 //        }
 //    }
 
+    private val requestNotificationPolicyAccess = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            a.myLocationManager?.initialize()
+            dailyOneTimeRunWorkerTrigger()
+            Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show()
+        } else {
+            a.myLocationManager?.initialize()
+            dailyOneTimeRunWorkerTrigger()
+        }
+    }
+
+    private fun requestNotificationPolicyAccess() {
+        val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+        requestNotificationPolicyAccess.launch(intent)
+    }
+
     private fun setDNDModePolicy() {
-        val notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (!notificationManager.isNotificationPolicyAccessGranted) {
-            val intent = Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
-            startActivity(intent)
+            requestNotificationPolicyAccess()
         }
     }
 
@@ -271,51 +338,70 @@ class HomeFragment : Fragment() {
     }
 
     private fun dailyOneTimeRunWorkerTrigger() {
-        val today = SimpleDate(GregorianCalendar())
-        val location = Location(23.8103, 90.4125, +6.0, 0)
-        val azan = Azan(location, Method.KARACHI_HANAF)
-        val prayerTimes = azan.getPrayerTimes(today)
+        if (notificationManager.isNotificationPolicyAccessGranted) {
+            Log.d("Prayer_tag", "if call")
+            val today = SimpleDate(GregorianCalendar())
+            val location = Location(23.8103, 90.4125, +6.0, 0)
+            val azan = Azan(location, Method.KARACHI_HANAF)
+            val prayerTimes = azan.getPrayerTimes(today)
 
-        workManager = WorkManager.getInstance(requireContext())
+            workManager = WorkManager.getInstance(requireContext())
 
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+            val constraints = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
-        val data = Data.EMPTY
+            val data = Data.EMPTY
 
-        periodicWorkRequest = PeriodicWorkRequestBuilder<PrayersWorker>(12, TimeUnit.HOURS)
-            .setInputData(data)
-            .setConstraints(constraints)
-            .addTag(WORKER_TAG)
-            .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
-            .build()
+            periodicWorkRequest = PeriodicWorkRequestBuilder<PrayersWorker>(12, TimeUnit.HOURS)
+                .setInputData(data)
+                .setConstraints(constraints)
+                .addTag(WORKER_TAG)
+                .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
+                .build()
+
+//            if (!isWorkerAlreadyRunning()) {
+//            }
+            workManager.enqueueUniquePeriodicWork(WORKER_NAME, ExistingPeriodicWorkPolicy.UPDATE, periodicWorkRequest)
+
+            //prefs.workerId = periodicWorkRequest.id
 
 
-        workManager.enqueueUniquePeriodicWork("Prayers Worker", ExistingPeriodicWorkPolicy.UPDATE, periodicWorkRequest)
 
-        workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observe(viewLifecycleOwner){
-            when(it.state){
-                WorkInfo.State.ENQUEUED -> {
-                    Log.d("PRAYERS_WORKER", "ENQUEUED : ${it.progress}")
-                }
-                WorkInfo.State.RUNNING -> {
-                    Log.d("PRAYERS_WORKER", "RUNNING : ${it.progress}")
-                }
-                WorkInfo.State.SUCCEEDED -> {
-                    Log.d("PRAYERS_WORKER", "SUCCEEDED : ${it.progress}")
-                }
-                WorkInfo.State.CANCELLED -> {
-                    Log.d("PRAYERS_WORKER", "CANCELLED : ${it.progress}")
-                }
-                WorkInfo.State.BLOCKED -> {
-                    Log.d("PRAYERS_WORKER", "BLOCKED : ${it.progress}")
-                }
-                else ->{
-                    Log.d("PRAYERS_WORKER", "else : ${it.progress}")
+            workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observe(viewLifecycleOwner) {
+                when(it.state){
+                    WorkInfo.State.ENQUEUED -> {
+                        Log.d("PRAYERS_WORKER", "ENQUEUED : ${it.progress}")
+                    }
+                    WorkInfo.State.RUNNING -> {
+                        Log.d("PRAYERS_WORKER", "RUNNING : ${it.progress.toByteArray()}")
+                    }
+                    WorkInfo.State.SUCCEEDED -> {
+                        Log.d("PRAYERS_WORKER", "SUCCEEDED : ${it.progress}")
+                    }
+                    WorkInfo.State.CANCELLED -> {
+                        Log.d("PRAYERS_WORKER", "CANCELLED : ${it.progress}")
+                    }
+                    WorkInfo.State.BLOCKED -> {
+                        Log.d("PRAYERS_WORKER", "BLOCKED : ${it.progress}")
+                    }
+                    else ->{
+                        Log.d("PRAYERS_WORKER", "else : ${it.progress}")
+                    }
                 }
             }
+        }else{
+            Log.d("Prayer_tag", "else call")
         }
+    }
+
+    private fun isWorkerAlreadyRunning(): Boolean {
+        val workInfo = workManager.getWorkInfosByTag(WORKER_TAG).get()
+        workInfo.forEach { work ->
+            if(work.state == WorkInfo.State.ENQUEUED || work.state == WorkInfo.State.RUNNING)
+                return true
+        }
+        return false
     }
 
     override fun onPause() {

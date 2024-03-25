@@ -67,7 +67,10 @@ dependencies {
 
     // Dagger-Hilt
     implementation("com.google.dagger:hilt-android:2.50")
+    implementation("androidx.hilt:hilt-common:1.2.0")
+    implementation("androidx.hilt:hilt-work:1.2.0")
     kapt("com.google.dagger:hilt-android-compiler:2.50")
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
 
     // viewModels & activity
     implementation("androidx.fragment:fragment-ktx:1.6.2")
@@ -88,7 +91,7 @@ dependencies {
     // Ad
     //implementation("com.google.android.gms:play-services-ads:22.6.0")
 
-    //firebase crashlytics
+    // firebase crashlytics
     implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.2")
     implementation("com.google.firebase:firebase-analytics:21.5.1")
 

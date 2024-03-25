@@ -8,6 +8,8 @@ import android.content.Intent
 import android.os.Build
 import android.util.Log
 import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.hilt.work.HiltWorker
+import androidx.work.CoroutineWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.azan.Azan
@@ -18,6 +20,8 @@ import com.example.prayerapp.model.PrayersTime
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.receiver.PrayersAlertReceiver
 import com.example.prayerapp.ui.DndHandler
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import kotlinx.coroutines.runBlocking
 import java.io.IOException
 import java.text.SimpleDateFormat
@@ -26,53 +30,57 @@ import java.util.Date
 import java.util.GregorianCalendar
 import javax.inject.Inject
 
-class PrayersWorker(private val context: Context, private val params: WorkerParameters) :
-    Worker(context, params) {
+@HiltWorker
+class PrayersWorker @AssistedInject constructor (@Assisted private val context: Context, @Assisted private val params: WorkerParameters) :
+    CoroutineWorker(context, params) {
 
     private lateinit var alarmManager: AlarmManager
     @Inject
     lateinit var prefs: Prefs
 
-    override fun doWork(): Result {
+    override suspend fun doWork(): Result {
         //prefs = Prefs(context)
         return try {
-            //Log.d("TAKE_TIME", "Prayers Worker call")
-            alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            Log.d("Prayer_tag", "doWork() -> Prayers Worker call")
+            alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
             for (i in getPrayersTime()) {
-                //Log.d("TAKE_TIME", " time : $i")
+                Log.d("Prayer_tag", "getPrayersTime() -> time : $i")
                 val calendar = Calendar.getInstance().apply {
                     set(Calendar.HOUR_OF_DAY, i.hours)
                     set(Calendar.MINUTE, i.minutes)
                     set(Calendar.SECOND, 0)
+                    set(Calendar.MILLISECOND, 0)
                 }
                 if (calendar.timeInMillis >= System.currentTimeMillis()) {
+                    Log.d("Prayer_tag", "if -> time : ${i.hours}")
                     setRepeatingAlarmExactTime(i.id, i.name, i.hours, i.minutes)
                 } else {
                     val hours = i.hours + 24
+                    Log.d("Prayer_tag", "else -> time : ${i.hours}")
                     setRepeatingAlarmExactTime(i.id, i.name, hours, i.minutes)
                 }
             }
 
             Result.success()
         } catch (e: IOException) {
-            //Log.d("TAKE_TIME", " time : ${e.localizedMessage}")
+            Log.d("Prayer_tag", "exception -> ${e.localizedMessage}")
             Result.retry()
         }
     }
 
     private fun setRepeatingAlarmExactTime(id: Int, name: String, hours: Int, minutes: Int) {
-        val intent = Intent(context, PrayersAlertReceiver::class.java)
+        val intent = Intent(applicationContext, PrayersAlertReceiver::class.java)
         intent.putExtra("NAME", name)
         intent.putExtra("ID", id)
-        intent.putExtra("DELAY_TIME", (60000 * 2))
+        intent.putExtra("DELAY_TIME", (1 * 60 * 1000))
 
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
                 applicationContext,
                 id,
                 intent,
-                PendingIntent.FLAG_MUTABLE
+                PendingIntent.FLAG_IMMUTABLE
             )
         } else {
             PendingIntent.getBroadcast(
@@ -87,15 +95,24 @@ class PrayersWorker(private val context: Context, private val params: WorkerPara
             set(Calendar.HOUR_OF_DAY, hours)
             set(Calendar.MINUTE, minutes)
             set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
         }
         //Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
-        alarmManager.cancel(pendingIntent) // first cancel alarm then set the new alarm
+//        alarmManager.cancel(pendingIntent) // first cancel alarm then set the new alarm
+//        alarmManager.setExact(
+//            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+//            calendar.timeInMillis,
+//            pendingIntent
+//        )
+
+        alarmManager.cancel(pendingIntent)
         alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.ELAPSED_REALTIME_WAKEUP,
+            AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             pendingIntent
         )
-        //Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
+        Log.d("Prayer_tag", "Calendar =>  ${calendar.timeInMillis}")
+        Log.d("Prayer_tag", "final =>  ${formatMilliseconds(calendar.timeInMillis)}")
     }
 
     private fun getPrayersTime() = runBlocking {

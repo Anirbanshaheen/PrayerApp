@@ -44,6 +44,7 @@ import javax.inject.Inject
 class CompassFragment : Fragment(), SensorEventListener {
 
     private lateinit var binding: FragmentCompassBinding
+    private lateinit var a: MainActivity
 
     private val compassViewModel by activityViewModels<CompassViewModel>()
 
@@ -62,6 +63,11 @@ class CompassFragment : Fragment(), SensorEventListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         //prefs = Prefs(requireActivity())
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        a = (requireActivity() as MainActivity)
     }
 
     override fun onCreateView(
@@ -83,8 +89,14 @@ class CompassFragment : Fragment(), SensorEventListener {
 
 
     private fun init() {
-        enableLocation()
-        getLocationTest()
+        a.myLocationManager?.locationCallback = object : (Location?) -> Unit {
+            override fun invoke(location: Location?) {
+                prefs.currentLat = location?.latitude ?: 23.8103  // default dhaka location
+                prefs.currentLon = location?.longitude ?: 90.4125
+                kotlin.runCatching { compassViewModel.getLocationAddress(requireContext(), prefs.currentLat,  prefs.currentLon) }
+            }
+        }
+        a.myLocationManager?.initialize()
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -107,81 +119,68 @@ class CompassFragment : Fragment(), SensorEventListener {
         }
     }
 
-    private fun enableLocation() {
-        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 0).apply {
-            setMinUpdateDistanceMeters(1f)
-            setWaitForAccurateLocation(true)
-        }.build()
-
-        val builder = LocationSettingsRequest.Builder()
-            .addLocationRequest(locationRequest)
-
-        LocationServices.getSettingsClient(requireActivity())
-            .checkLocationSettings(builder.build())
-            .addOnSuccessListener { response ->
-
-                // Location settings are satisfied, start updating location
-                // startUpdatingLocation(...)
-            }
-            .addOnFailureListener { ex ->
-                if (ex is ResolvableApiException) {
-                    // Location settings are NOT satisfied, but this can be fixed by showing the user a dialog.
-                    try {
-                        // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
-                        val resolvable = ex as ResolvableApiException
-                        resolvable.startResolutionForResult(requireActivity(), 11)
-                    } catch (sendEx: IntentSender.SendIntentException) {
-                        // Ignore the error.
-                    }
-                }
-            }
-    }
-
-    @SuppressLint("MissingPermission")
-    private fun getLocationTest() {
-        if (checkPermissions()) {
-            if (isLocationEnabled()) {
-                fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-
-//                fusedLocationClient.lastLocation.addOnSuccessListener { location->
-//                    location?.let {
-//                        currentLocation = location
-//                        compassViewModel.getLocationAddress(requireActivity(), currentLocation)
-//                        sensorManager = requireActivity().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
-//                        sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION)!!
-//                        sensorManager.registerListener(
+//    private fun enableLocation() {
+//        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 0).apply {
+//            setMinUpdateDistanceMeters(1f)
+//            setWaitForAccurateLocation(true)
+//        }.build()
+//
+//        val builder = LocationSettingsRequest.Builder()
+//            .addLocationRequest(locationRequest)
+//
+//        LocationServices.getSettingsClient(requireActivity())
+//            .checkLocationSettings(builder.build())
+//            .addOnSuccessListener { response ->
+//
+//                // Location settings are satisfied, start updating location
+//                // startUpdatingLocation(...)
+//            }
+//            .addOnFailureListener { ex ->
+//                if (ex is ResolvableApiException) {
+//                    // Location settings are NOT satisfied, but this can be fixed by showing the user a dialog.
+//                    try {
+//                        // Show the dialog by calling startResolutionForResult(), and check the result in onActivityResult().
+//                        val resolvable = ex as ResolvableApiException
+//                        resolvable.startResolutionForResult(requireActivity(), 11)
+//                    } catch (sendEx: IntentSender.SendIntentException) {
+//                        // Ignore the error.
+//                    }
+//                }
+//            }
+//    }
+//
+//    @SuppressLint("MissingPermission")
+//    private fun getLocationTest() {
+//        if (checkPermissions()) {
+//            if (isLocationEnabled()) {
+//                fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireActivity())
+//
+//                fusedLocationClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(requireActivity()) { location ->
+//                    location.result?.let {
+//                        currentLocation = location.result
+//                        kotlin.runCatching { compassViewModel.getLocationAddress(requireContext(), currentLocation) }
+//                        kotlin.runCatching { sensorManager = requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
+//                        if (sensorManager == null) {
+//                            Toast.makeText(requireContext(), "No sensor available!", Toast.LENGTH_LONG).show()
+//                            return@addOnCompleteListener
+//                        }
+//                        sensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION) ?: sensor
+//                        if (sensor == null) return@addOnCompleteListener
+//                        sensorManager?.registerListener(
 //                            this, sensor, SensorManager.SENSOR_DELAY_GAME
 //                        )
 //                        Log.d("wow","$currentLocation")
 //                    }
 //                }
-
-                fusedLocationClient.getCurrentLocation(com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY, null).addOnCompleteListener(requireActivity()) { location ->
-                    location.result?.let {
-                        currentLocation = location.result
-                        kotlin.runCatching { compassViewModel.getLocationAddress(requireContext(), currentLocation) }
-                        kotlin.runCatching { sensorManager = requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager }
-                        if (sensorManager == null) {
-                            Toast.makeText(requireContext(), "No sensor available!", Toast.LENGTH_LONG).show()
-                            return@addOnCompleteListener
-                        }
-                        sensor = sensorManager?.getDefaultSensor(Sensor.TYPE_ORIENTATION) ?: sensor
-                        if (sensor == null) return@addOnCompleteListener
-                        sensorManager?.registerListener(
-                            this, sensor, SensorManager.SENSOR_DELAY_GAME
-                        )
-                        Log.d("wow","$currentLocation")
-                    }
-                }
-            } else {
-                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_LONG).show()
-                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
-                startActivity(intent)
-            }
-        } else {
-            requestPermissions()
-        }
-    }
+//            } else {
+//                Toast.makeText(requireContext(), "Turn on location", Toast.LENGTH_LONG).show()
+//                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+//                startActivity(intent)
+//            }
+//        } else {
+//            requestPermissions()
+//        }
+//    }
 
     private fun checkPermissions(): Boolean {
         if (ActivityCompat.checkSelfPermission(
@@ -210,8 +209,8 @@ class CompassFragment : Fragment(), SensorEventListener {
     override fun onSensorChanged(event: SensorEvent?) {
         val degree = event?.values?.get(0) ?: 0f
         val destinationLoc = Location("service Provider").apply {
-            latitude = 21.422487
-            longitude = 39.826206
+            latitude = prefs.currentLat
+            longitude = prefs.currentLon
         }
 
         var bearTo: Float = currentLocation.bearingTo(destinationLoc)

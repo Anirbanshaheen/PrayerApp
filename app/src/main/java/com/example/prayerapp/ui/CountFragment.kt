@@ -174,7 +174,7 @@ class CountFragment : Fragment() {
         }
         binding.progressBar.max = maxCount
         binding.progressBar.progress = totalCount
-        binding.countMainTV.text = "${totalCount}"
+        binding.countMainTV.text = "$totalCount"
         binding.countIV.setOnClickListener {
             incrementProgress()
         }
