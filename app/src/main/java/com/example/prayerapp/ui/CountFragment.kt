@@ -69,7 +69,7 @@ class CountFragment : Fragment() {
             }
 
             prefs.save(tasbihModel, prefs.selectedValue)
-            binding.countSelectTv.text = "${tasbihModel?.name ?: "Alhamdulliah"}"
+            binding.countSelectTv.text = requireContext().getString(R.string.alhamdulliah)
 
             counter()
         }
@@ -91,7 +91,7 @@ class CountFragment : Fragment() {
 
             prefs.save(tasbihModel, prefs.selectedValue)
 
-            binding.countSelectTv.text = "${tasbihModel?.name ?: "Allahu Akbar"}"
+            binding.countSelectTv.text = requireContext().getString(R.string.allahu_akbar)
 
             counter()
         }
@@ -113,7 +113,7 @@ class CountFragment : Fragment() {
 
             prefs.save(tasbihModel, prefs.selectedValue)
 
-            binding.countSelectTv.text = "${tasbihModel?.name ?: "Subhanallah"}"
+            binding.countSelectTv.text = requireContext().getString(R.string.subhanallah)
 
             counter()
         }
@@ -132,7 +132,20 @@ class CountFragment : Fragment() {
     private fun selectCounterValue() {
         val tasbihModel = prefs.get<Prefs.TasbihModel>(prefs.selectedValue)
         Log.d("check_counter","$tasbihModel")
-        binding.countSelectTv.text = tasbihModel?.name?:""
+        binding.countSelectTv.text = when(tasbihModel?.name){
+            "Alhamdulliah" ->{
+                requireContext().getString(R.string.alhamdulliah)
+            }
+            "Allahu Akbar" ->{
+                requireContext().getString(R.string.allahu_akbar)
+            }
+            "Subhanallah" ->{
+                requireContext().getString(R.string.subhanallah)
+            }
+            else -> {
+                requireContext().getString(R.string.subhanallah)
+            }
+        }
 
         when(prefs.selectedValue){
             "Alhamdulliah" ->{

@@ -73,7 +73,7 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
         val intent = Intent(applicationContext, PrayersAlertReceiver::class.java)
         intent.putExtra("NAME", name)
         intent.putExtra("ID", id)
-        intent.putExtra("DELAY_TIME", (1 * 60 * 1000))
+        intent.putExtra("DELAY_TIME", (15 * 60 * 1000))
 
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
@@ -117,7 +117,7 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
 
     private fun getPrayersTime() = runBlocking {
         val today = SimpleDate(GregorianCalendar())
-        val location = Location(23.7561, 90.3872, +6.0, 0)
+        val location = Location(prefs.currentLat, prefs.currentLon, +6.0, 0)
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
         //val imsaak = azan.getImsaak(today)

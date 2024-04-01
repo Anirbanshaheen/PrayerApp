@@ -27,6 +27,9 @@
     <string name="subhanallah_n33">সুবহানাল্লাহ\n৩৩</string>
     <string name="alhamdulliah_n33">আলহামদুলিল্লাহ\n৩৩</string>
     <string name="allahu_akbar_n34">আল্লাহু আকবার\n৩৪</string>
+    <string name="subhanallah">সুবহানাল্লাহ</string>
+    <string name="alhamdulliah">আলহামদুলিল্লাহ</string>
+    <string name="allahu_akbar">আল্লাহু আকবার</string>
     <string name="fajr_time">ফজরের সময়</string>
     <string name="dhuhr_time">জোহরের সময়</string>
     <string name="asr_time">আসরের সময়</string>

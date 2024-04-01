@@ -10,6 +10,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
+import android.os.Looper
 import android.provider.Settings
 import android.util.Log
 import android.widget.Toast
@@ -17,7 +18,10 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
+import com.google.android.gms.location.LocationRequest.Builder.IMPLICIT_MIN_UPDATE_INTERVAL
+import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.location.LocationSettingsRequest
 import com.google.android.gms.location.Priority
@@ -28,6 +32,7 @@ class MyLocationManager(private val context: Activity) {
     private var locationManager: LocationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
     var locationCallback: ((location: Location?)-> Unit)? = null
     var retryPermissionCallback: ((isGranted: Boolean)-> Unit)? = null
+    private var repeatedCall = 0
     private val prefs = context.getSharedPreferences("LOCATION_DB", Context.MODE_PRIVATE)
 
     fun initialize() {
@@ -91,13 +96,32 @@ class MyLocationManager(private val context: Activity) {
         } else {
             retryPermissionCallback?.invoke(false)
             prefs.edit().clear().apply()
-            fusedLocationClient.lastLocation
-                .addOnSuccessListener { location ->
-                    locationCallback?.invoke(location)
-                }
-                .addOnFailureListener { e ->
-                    locationCallback?.invoke(null)
-                }
+            updateLocation()
+//            fusedLocationClient.lastLocation
+//                .addOnSuccessListener { location ->
+//                    locationCallback?.invoke(location)
+//                }
+//                .addOnFailureListener { e ->
+//                    locationCallback?.invoke(null)
+//                }
+
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    fun updateLocation() {
+        fusedLocationClient.getCurrentLocation(
+            LocationRequest.PRIORITY_HIGH_ACCURACY,
+            null
+        ).addOnSuccessListener { location ->
+            if (location != null) {
+                locationCallback?.invoke(location)
+            } else {
+                if (repeatedCall < 2) updateLocation()
+                repeatedCall++
+            }
+        }.addOnFailureListener { e ->
+            locationCallback?.invoke(null)
         }
     }
 

@@ -5,18 +5,16 @@ package com.example.prayerapp.ui
 //import com.google.android.gms.ads.AdRequest
 //import com.google.android.gms.ads.MobileAds
 import android.Manifest
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.graphics.drawable.GradientDrawable
 import android.hardware.Sensor
 import android.hardware.SensorManager
-import android.location.LocationManager
+import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -25,8 +23,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
+import androidx.activity.result.registerForActivityResult
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.core.view.isVisible
@@ -44,7 +43,6 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.azan.Azan
 import com.azan.Method
-import com.azan.astrologicalCalc.Location
 import com.azan.astrologicalCalc.SimpleDate
 import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentHomeBinding
@@ -53,13 +51,9 @@ import com.example.prayerapp.ui.MainActivity.Companion.mainActivity
 import com.example.prayerapp.ui.compass.CompassViewModel
 import com.example.prayerapp.utils.changeStatusBarColor
 import com.example.prayerapp.utils.twentyFourTo12HourConverter
+import com.example.prayerapp.viewmodel.PrayerViewModel
 import com.example.prayerapp.worker.PrayersWorker
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.Priority
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.GregorianCalendar
@@ -71,6 +65,7 @@ class HomeFragment : Fragment() {
 
     private lateinit var binding : FragmentHomeBinding
     private val compassViewModel by activityViewModels<CompassViewModel>()
+    private val prayersViewModel by activityViewModels<PrayerViewModel>()
     private lateinit var a: MainActivity
 
     private lateinit var workManager: WorkManager
@@ -78,7 +73,6 @@ class HomeFragment : Fragment() {
     private lateinit var notificationManager: NotificationManager
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val PERMISSION_ID = 42
-    private lateinit var currentLocation: android.location.Location
     private var sensorManager: SensorManager? = null
     private var sensor: Sensor? = null
     private val WORKER_TAG = "PRAYERS_WORKER"
@@ -126,10 +120,11 @@ class HomeFragment : Fragment() {
             a.myLocationManager?.initialize()
         }
 
-        a.myLocationManager?.locationCallback = object : (android.location.Location?) -> Unit {
-            override fun invoke(location: android.location.Location?) {
+        a.myLocationManager?.locationCallback = object : (Location?) -> Unit {
+            override fun invoke(location: Location?) {
                 prefs.currentLat = location?.latitude ?: 23.8103  // default dhaka location
                 prefs.currentLon = location?.longitude ?: 90.4125
+                getPrayersTime()
                 Log.d("locationCallback", "\nlatitude: ${prefs.currentLat}\nlongitude: ${prefs.currentLon}")
             }
         }
@@ -150,7 +145,7 @@ class HomeFragment : Fragment() {
         notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         checkPermission()
         setDNDModePolicy()
-        showTime()
+        getPrayersTime()
     }
 
 //    private fun adShow() {
@@ -171,9 +166,11 @@ class HomeFragment : Fragment() {
             a.myLocationManager?.initialize()
             dailyOneTimeRunWorkerTrigger()
             Toast.makeText(requireContext(), "Granted", Toast.LENGTH_SHORT).show()
+
         } else {
             a.myLocationManager?.initialize()
             dailyOneTimeRunWorkerTrigger()
+
         }
     }
 
@@ -201,61 +198,102 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun showTime() {
+    private fun getPrayersTime() {
         val today = SimpleDate(GregorianCalendar())
-        val location = Location(23.8103, 90.4125, +6.0, 0)
+        val location =
+            com.azan.astrologicalCalc.Location(prefs.currentLat, prefs.currentLon, +6.0, 0)
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
-        Log.d("showTime_tag","${azan.getImsaak(today)}")
+        Log.d("showTime", "prayerTimes : $prayerTimes")
+        val fajrTimeInMilliseconds =
+            timeToMilliSecond(prayerTimes.fajr().hour, prayerTimes.fajr().minute)
+        val juhorTimeInMilliseconds =
+            timeToMilliSecond(prayerTimes.thuhr().hour, prayerTimes.thuhr().minute)
+        val asorTimeInMilliseconds =
+            timeToMilliSecond(prayerTimes.assr().hour, prayerTimes.assr().minute)
+        val magribTimeInMilliseconds =
+            timeToMilliSecond(prayerTimes.maghrib().hour, prayerTimes.maghrib().minute)
+        val ishaTimeInMilliseconds =
+            timeToMilliSecond(prayerTimes.ishaa().hour, prayerTimes.ishaa().minute)
 
-        val fajrTimeInMilliseconds = timeToMilliSecond(prayerTimes.fajr().hour, prayerTimes.fajr().minute)
-        val juhorTimeInMilliseconds = timeToMilliSecond(prayerTimes.thuhr().hour, prayerTimes.thuhr().minute)
-        val asorTimeInMilliseconds = timeToMilliSecond(prayerTimes.assr().hour, prayerTimes.assr().minute)
-        val magribTimeInMilliseconds = timeToMilliSecond(prayerTimes.maghrib().hour, prayerTimes.maghrib().minute)
-        val ishaTimeInMilliseconds = timeToMilliSecond(prayerTimes.ishaa().hour, prayerTimes.ishaa().minute)
+        val fajrTimeString = prayerTimes.fajr().twentyFourTo12HourConverter()
+        val juhorTimeString = prayerTimes.thuhr().twentyFourTo12HourConverter()
+        val asorTimeString = prayerTimes.assr().twentyFourTo12HourConverter()
+        val magribTimeString = prayerTimes.maghrib().twentyFourTo12HourConverter()
+        val ishaTimeString = prayerTimes.ishaa().twentyFourTo12HourConverter()
 
-        if (System.currentTimeMillis() in ((fajrTimeInMilliseconds + (30 * 60000)) + 1)..(juhorTimeInMilliseconds + (3 * 3600000))) {
-            binding.prayerBgIV.setImageResource(R.drawable.juhor)
-            binding.prayerNameTV.text = requireActivity().getString(R.string.dhuhr_time)
-            binding.prayerTimeTV.text = prayerTimes.thuhr().twentyFourTo12HourConverter()
-            binding.johorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
-            binding.johorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
-            backgroundScreenGradient(R.drawable.juhor)
-        }else if (System.currentTimeMillis() in ((juhorTimeInMilliseconds + (3 * 3600000)) + 1)..(asorTimeInMilliseconds + 3600000)) {
-            binding.prayerBgIV.setImageResource(R.drawable.asor)
-            binding.prayerNameTV.text = requireActivity().getString(R.string.asr_time)
-            binding.prayerTimeTV.text = prayerTimes.assr().twentyFourTo12HourConverter()
-            binding.asorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
-            binding.asorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
-            backgroundScreenGradient(R.drawable.asor)
-        }else if (System.currentTimeMillis() in ((asorTimeInMilliseconds + 3600000) + 1)..(magribTimeInMilliseconds + (20 * 60000))) {
-            binding.prayerBgIV.setImageResource(R.drawable.magrib)
-            binding.prayerNameTV.text = requireActivity().getString(R.string.maghrib_time)
-            binding.prayerTimeTV.text = prayerTimes.maghrib().twentyFourTo12HourConverter()
-            binding.magribCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
-            binding.magribCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
-            backgroundScreenGradient(R.drawable.magrib)
-        }else if (System.currentTimeMillis() in ((magribTimeInMilliseconds + (20 * 60000)) + 1)..(ishaTimeInMilliseconds + (5 * 3600000))) {
-            binding.prayerBgIV.setImageResource(R.drawable.isha)
-            binding.prayerNameTV.text = requireActivity().getString(R.string.isha_time)
-            binding.prayerTimeTV.text = prayerTimes.ishaa().twentyFourTo12HourConverter()
-            binding.eshaCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
-            binding.eshaCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
-            backgroundScreenGradient(R.drawable.isha)
-        }else if (System.currentTimeMillis() in ((ishaTimeInMilliseconds + (10 * 3600000)) + 1)..(fajrTimeInMilliseconds + (30 * 60000))) {
-            binding.prayerBgIV.setImageResource(R.drawable.fazor)
+        if (System.currentTimeMillis() in ((ishaTimeInMilliseconds + (10 * 3600000)) + 1)..(fajrTimeInMilliseconds + (30 * 60000))) {
             binding.prayerNameTV.text = requireActivity().getString(R.string.fajr_time)
-            binding.prayerTimeTV.text = prayerTimes.fajr().twentyFourTo12HourConverter()
-            binding.fazorCV.strokeColor = ContextCompat.getColor(requireContext(), R.color.light_green)
-            binding.fazorCV.setCardBackgroundColor(ContextCompat.getColor(requireContext(), R.color.dim_green))
+            binding.prayerTimeTV.text = fajrTimeString
+            binding.prayerBgIV.setImageResource(R.drawable.fazor)
+            binding.fazorCV.strokeColor =
+                ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.fazorCV.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dim_green
+                )
+            )
             backgroundScreenGradient(R.drawable.fazor)
+        } else if (System.currentTimeMillis() in ((fajrTimeInMilliseconds + (30 * 60000)) + 1)..(juhorTimeInMilliseconds + (3 * 3600000))) {
+            binding.prayerNameTV.text = requireActivity().getString(R.string.dhuhr_time)
+            binding.prayerTimeTV.text = juhorTimeString
+            binding.prayerBgIV.setImageResource(R.drawable.juhor)
+            binding.johorCV.strokeColor =
+                ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.johorCV.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dim_green
+                )
+            )
+            backgroundScreenGradient(R.drawable.juhor)
+        } else if (System.currentTimeMillis() in ((juhorTimeInMilliseconds + (3 * 3600000)) + 1)..(asorTimeInMilliseconds + 3600000)) {
+            binding.prayerNameTV.text = requireActivity().getString(R.string.asr_time)
+            binding.prayerTimeTV.text = asorTimeString
+            binding.prayerBgIV.setImageResource(R.drawable.asor)
+            binding.asorCV.strokeColor =
+                ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.asorCV.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dim_green
+                )
+            )
+            backgroundScreenGradient(R.drawable.asor)
+        } else if (System.currentTimeMillis() in ((asorTimeInMilliseconds + 3600000) + 1)..(magribTimeInMilliseconds + (20 * 60000))) {
+            binding.prayerNameTV.text = requireActivity().getString(R.string.maghrib_time)
+            binding.prayerTimeTV.text = magribTimeString
+            binding.prayerBgIV.setImageResource(R.drawable.magrib)
+            binding.magribCV.strokeColor =
+                ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.magribCV.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dim_green
+                )
+            )
+            backgroundScreenGradient(R.drawable.magrib)
+        } else if (System.currentTimeMillis() in ((magribTimeInMilliseconds + (20 * 60000)) + 1)..(ishaTimeInMilliseconds + (5 * 3600000))) {
+            binding.prayerNameTV.text = requireActivity().getString(R.string.isha_time)
+            binding.prayerTimeTV.text = ishaTimeString
+            binding.prayerBgIV.setImageResource(R.drawable.isha)
+            binding.eshaCV.strokeColor =
+                ContextCompat.getColor(requireContext(), R.color.light_green)
+            binding.eshaCV.setCardBackgroundColor(
+                ContextCompat.getColor(
+                    requireContext(),
+                    R.color.dim_green
+                )
+            )
+            backgroundScreenGradient(R.drawable.isha)
         }
 
-        binding.fazorTimeTV.text = prayerTimes.fajr().twentyFourTo12HourConverter()
-        binding.juhorTimeTV.text = prayerTimes.thuhr().twentyFourTo12HourConverter()
-        binding.asorTimeTV.text = prayerTimes.assr().twentyFourTo12HourConverter()
-        binding.magribTimeTV.text = prayerTimes.maghrib().twentyFourTo12HourConverter()
-        binding.eshaTimeTV.text = prayerTimes.ishaa().twentyFourTo12HourConverter()
+        binding.fazorTimeTV.text = fajrTimeString
+        binding.juhorTimeTV.text = juhorTimeString
+        binding.asorTimeTV.text = asorTimeString
+        binding.magribTimeTV.text = magribTimeString
+        binding.eshaTimeTV.text = ishaTimeString
     }
 
     fun timeToMilliSecond(hours: Int, minutes: Int): Long {
@@ -341,7 +379,8 @@ class HomeFragment : Fragment() {
         if (notificationManager.isNotificationPolicyAccessGranted) {
             Log.d("Prayer_tag", "if call")
             val today = SimpleDate(GregorianCalendar())
-            val location = Location(23.8103, 90.4125, +6.0, 0)
+            val location =
+                com.azan.astrologicalCalc.Location(prefs.currentLat, prefs.currentLon, +6.0, 0)
             val azan = Azan(location, Method.KARACHI_HANAF)
             val prayerTimes = azan.getPrayerTimes(today)
 

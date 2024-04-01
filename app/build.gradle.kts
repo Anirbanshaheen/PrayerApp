@@ -92,8 +92,8 @@ dependencies {
     //implementation("com.google.android.gms:play-services-ads:22.6.0")
 
     // firebase crashlytics
-    implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.2")
-    implementation("com.google.firebase:firebase-analytics:21.5.1")
+    implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.3")
+    implementation("com.google.firebase:firebase-analytics:21.6.1")
 
     //implementation("com.orhanobut:hawk:2.0.1")
 }

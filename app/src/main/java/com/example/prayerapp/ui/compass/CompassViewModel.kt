@@ -3,13 +3,14 @@ package com.example.prayerapp.ui.compass
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.location.Location
+import android.location.Geocoder.GeocodeListener
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.util.Locale
 import javax.inject.Inject
@@ -20,7 +21,7 @@ class CompassViewModel @Inject constructor() : ViewModel() {
     var qilbaRotation = MutableLiveData(RotationTarget(0f, 0f))
     var compassRotation = MutableLiveData(RotationTarget(0f, 0f))
 
-    var locationAddress = MutableLiveData("-")
+    var locationAddress = MutableLiveData("")
 
     fun updateCompass(qilba: RotationTarget, compass: RotationTarget, isFacing: Boolean) {
         isFacingQibla.value = isFacing
@@ -39,10 +40,12 @@ class CompassViewModel @Inject constructor() : ViewModel() {
                         object : Geocoder.GeocodeListener {
                             override fun onGeocode(addresses: MutableList<Address>) {
                                 addresses.first().let {
-                                    locationAddress.value = buildString {
+                                    Log.d("location_tag", "$addresses")
+                                    locationAddress.value
+                                    locationAddress.postValue(buildString {
                                         append(it.locality).append(", ")
                                         append(it.getAddressLine(0))
-                                    }
+                                    })
                                 }
                             }
 

@@ -3,8 +3,6 @@ package com.example.prayerapp.ui
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.content.res.ColorStateList
 import android.hardware.Sensor
@@ -14,7 +12,6 @@ import android.hardware.SensorManager
 import android.location.Location
 import android.location.LocationManager
 import android.os.Bundle
-import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -22,21 +19,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.prayerapp.R
 import com.example.prayerapp.databinding.FragmentCompassBinding
 import com.example.prayerapp.prefs.Prefs
 import com.example.prayerapp.ui.compass.CompassViewModel
 import com.example.prayerapp.ui.compass.RotationTarget
 import com.example.prayerapp.utils.exH
-import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationRequest
-import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.LocationSettingsRequest
-import com.google.android.gms.location.Priority
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -51,7 +41,7 @@ class CompassFragment : Fragment(), SensorEventListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val PERMISSION_ID = 42
 
-    private lateinit var currentLocation: Location
+    private lateinit var currentLoctionSensor: Location
     private var sensorManager: SensorManager? = null
     private var sensor: Sensor? = null
     private var currentDegree = 0f
@@ -88,15 +78,43 @@ class CompassFragment : Fragment(), SensorEventListener {
     }
 
 
+    @SuppressLint("MissingPermission")
     private fun init() {
+        currentLoctionSensor = Location("service Provider").apply {
+            latitude = prefs.currentLat
+            longitude = prefs.currentLon
+        }
+
         a.myLocationManager?.locationCallback = object : (Location?) -> Unit {
             override fun invoke(location: Location?) {
-                prefs.currentLat = location?.latitude ?: 23.8103  // default dhaka location
-                prefs.currentLon = location?.longitude ?: 90.4125
-                kotlin.runCatching { compassViewModel.getLocationAddress(requireContext(), prefs.currentLat,  prefs.currentLon) }
+                location?.let {
+                    prefs.currentLat = it.latitude
+                    prefs.currentLon = it.longitude
+                    currentLoctionSensor = it.apply {
+                        latitude = it.latitude
+                        longitude = it.longitude
+                    }
+                    kotlin.runCatching {
+                        compassViewModel.getLocationAddress(
+                            requireContext(),
+                            prefs.currentLat,
+                            prefs.currentLon
+                        )
+                    }
+                }
             }
         }
         a.myLocationManager?.initialize()
+
+        sensorManager = requireContext().getSystemService(AppCompatActivity.SENSOR_SERVICE) as SensorManager
+        sensor = sensorManager?.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD) ?: sensor
+        if (sensor == null) {
+            Toast.makeText(requireContext(), "No sensor available!", Toast.LENGTH_LONG).show()
+            return
+        }
+        sensorManager?.registerListener(
+            this, sensor, SensorManager.SENSOR_DELAY_UI
+        )
     }
 
     private fun isLocationEnabled(): Boolean {
@@ -200,7 +218,10 @@ class CompassFragment : Fragment(), SensorEventListener {
     private fun requestPermissions() {
         ActivityCompat.requestPermissions(
             requireActivity(),
-            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ),
             PERMISSION_ID
         )
     }
@@ -208,12 +229,12 @@ class CompassFragment : Fragment(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent?) {
         val degree = event?.values?.get(0) ?: 0f
-        val destinationLoc = Location("service Provider").apply {
-            latitude = prefs.currentLat
-            longitude = prefs.currentLon
+        val qiblaLocation = Location("service Provider").apply {
+            latitude = 21.422487 // qibla lat lon
+            longitude = 39.826206
         }
 
-        var bearTo: Float = currentLocation.bearingTo(destinationLoc)
+        var bearTo: Float = currentLoctionSensor.bearingTo(qiblaLocation)
         if (bearTo < 0) bearTo += 360
         var direction: Float = bearTo - degree
         if (direction < 0) direction += 360
