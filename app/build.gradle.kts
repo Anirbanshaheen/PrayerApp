@@ -29,6 +29,12 @@ android {
             )
         }
     }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
     buildFeatures {
         viewBinding = true
     }

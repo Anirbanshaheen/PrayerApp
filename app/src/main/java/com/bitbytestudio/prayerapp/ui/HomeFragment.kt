@@ -51,6 +51,7 @@ import com.bitbytestudio.prayerapp.utils.twentyFourTo12HourConverter
 import com.bitbytestudio.prayerapp.viewmodel.PrayerViewModel
 import com.bitbytestudio.prayerapp.worker.PrayersWorker
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.Calendar
 import java.util.GregorianCalendar
@@ -85,6 +86,9 @@ class HomeFragment : Fragment() {
         ActivityResultContracts.RequestPermission()
     ) { isGranted: Boolean ->
         isPermission = isGranted
+        if (!notificationManager.isNotificationPolicyAccessGranted) {
+            showMaterialAlertDialog()
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             if (ContextCompat.checkSelfPermission(requireActivity(), Manifest.permission.SCHEDULE_EXACT_ALARM) == PackageManager.PERMISSION_GRANTED) {
                 isPermission = true
@@ -155,7 +159,6 @@ class HomeFragment : Fragment() {
         //adShow()
         notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         checkPermission()
-        setDNDModePolicy()
         getPrayersTime()
     }
 
@@ -205,8 +208,31 @@ class HomeFragment : Fragment() {
                 checkNotificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         } else {
+            if (!notificationManager.isNotificationPolicyAccessGranted) {
+                showMaterialAlertDialog()
+            }
             isPermission = true
         }
+    }
+
+    fun showMaterialAlertDialog() {
+        val builder = MaterialAlertDialogBuilder(requireActivity())
+
+        builder.setTitle("Require Permission")
+        builder.setMessage("Please grant permission for DND mode")
+        builder.setCancelable(false)
+
+        builder.setPositiveButton("OK") { dialog, which ->
+            setDNDModePolicy()
+            dialog.dismiss()
+        }
+
+        builder.setNegativeButton("Cancel") { dialog, which ->
+            dialog.dismiss()
+        }
+
+        val dialog = builder.create()
+        dialog.show()
     }
 
     private fun getPrayersTime() {
