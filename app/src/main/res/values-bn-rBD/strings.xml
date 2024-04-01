@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Prayer App</string>
-
     <string name="zero_degrees">০°</string>
 
     <string name="degree_0_text">০</string>

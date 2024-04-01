@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Prayer App</string>
+    <string name="app_name" translatable="false">Prayers Time</string>
 
     <string name="zero_degrees">0°</string>
 
