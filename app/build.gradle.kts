@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    namespace = "com.example.prayerapp"
+    namespace = "com.bitbytestudio.prayerapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.prayerapp"
+        applicationId = "com.bitbytestudio.prayerapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 1
+        versionCode = 2
         versionName = "version - 1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

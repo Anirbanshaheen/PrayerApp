@@ -14,7 +14,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name=".PrayersApp"
+        android:name="com.bitbytestudio.prayerapp.PrayersApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,7 +26,7 @@
         android:theme="@style/Theme.PrayerApp"
         tools:targetApi="31">
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.bitbytestudio.prayerapp.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,11 +45,11 @@
 <!--            android:launchMode="singleTop"/>-->
 
         <receiver
-            android:name=".receiver.PrayersAlertReceiver"
+            android:name="com.bitbytestudio.prayerapp.receiver.PrayersAlertReceiver"
             android:enabled="true"
             android:exported="false">
 <!--            <intent-filter>-->
-<!--                <action android:name="com.example.ALARM_TRIGGER_ACTION" />-->
+<!--                <action android:name="com.bitbytestudio.ALARM_TRIGGER_ACTION" />-->
 <!--            </intent-filter>-->
         </receiver>
 

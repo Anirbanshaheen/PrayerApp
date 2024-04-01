@@ -262,7 +262,7 @@
 
     <!--    app:layout_constraintBottom_toTopOf="@+id/nativeAd"-->
 
-    <!--    <com.example.prayerapp.ui.native_template.TemplateView-->
+    <!--    <com.bitbytestudio.prayerapp.ui.native_template.TemplateView-->
     <!--        android:id="@+id/nativeAd"-->
     <!--        android:layout_width="match_parent"-->
     <!--        android:layout_height="wrap_content"-->
