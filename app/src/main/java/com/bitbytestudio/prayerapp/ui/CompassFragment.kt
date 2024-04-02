@@ -40,7 +40,7 @@ class CompassFragment : Fragment(), SensorEventListener {
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     val PERMISSION_ID = 42
 
-    private lateinit var currentLoctionSensor: Location
+    private lateinit var currentLocationSensor: Location
     private var sensorManager: SensorManager? = null
     private var sensor: Sensor? = null
     private var currentDegree = 0f
@@ -79,7 +79,7 @@ class CompassFragment : Fragment(), SensorEventListener {
 
     @SuppressLint("MissingPermission")
     private fun init() {
-        currentLoctionSensor = Location("service Provider").apply {
+        currentLocationSensor = Location("service Provider").apply {
             latitude = prefs.currentLat
             longitude = prefs.currentLon
         }
@@ -89,7 +89,7 @@ class CompassFragment : Fragment(), SensorEventListener {
                 location?.let {
                     prefs.currentLat = it.latitude
                     prefs.currentLon = it.longitude
-                    currentLoctionSensor = it.apply {
+                    currentLocationSensor = it.apply {
                         latitude = it.latitude
                         longitude = it.longitude
                     }
@@ -233,7 +233,7 @@ class CompassFragment : Fragment(), SensorEventListener {
             longitude = 39.826206
         }
 
-        var bearTo: Float = currentLoctionSensor.bearingTo(qiblaLocation)
+        var bearTo: Float = currentLocationSensor.bearingTo(qiblaLocation)
         if (bearTo < 0) bearTo += 360
         var direction: Float = bearTo - degree
         if (direction < 0) direction += 360

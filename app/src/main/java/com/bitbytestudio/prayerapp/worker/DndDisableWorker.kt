@@ -30,22 +30,18 @@ class DndDisableWorker @AssistedInject constructor (@Assisted private val contex
             intent.putExtra("NAME", inputData.getString("NAME"))
             intent.putExtra("ID", inputData.getInt("ID", 0))
             intent.putExtra("DELAY_TIME", delay)
+            intent.putExtra("IS_ENABLE", false)
 
             Log.d("DND_DISABLE_TAG", "user NAME : ${inputData.getString("NAME")}")
             Log.d("DND_DISABLE_TAG", "user ID : ${inputData.getInt("ID", 0)}")
             Log.d("DND_DISABLE_TAG", "user delay time : $delay")
 
-            Log.d("DND_DISABLE_TAG", "before delay : ${dndHandler.isDndEnabled(applicationContext)}")
+            Log.d("DND_DISABLE_TAG", "before delay")
             delay(delay)
-            Log.d("DND_DISABLE_TAG", "after delay : ${dndHandler.isDndEnabled(applicationContext)}")
-            if (dndHandler.isDndEnabled(context)) {
-                dndHandler.disableDndMode(context)
-                dndHandler.sendNotification(context, intent)
-                Log.d("DND_DISABLE_TAG", "Back to normal mode")
-            } else {
-                Log.d("DND_DISABLE_TAG", "normal mode")
-                Toast.makeText(context, "DND mode already deactivate!!", Toast.LENGTH_LONG).show()
-            }
+            dndHandler.disableDndMode(applicationContext)
+            dndHandler.sendNotification(context, intent)
+            Log.d("DND_DISABLE_TAG", "after delay")
+            Log.d("DND_DISABLE_TAG", "Back to normal mode")
 
             Result.success()
         } catch (e: IOException) {

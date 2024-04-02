@@ -39,23 +39,21 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
         return try {
             Log.d("Prayer_tag", "doWork() -> Prayers Worker call")
             alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
+            val calendar = Calendar.getInstance()
             for (i in getPrayersTime()) {
-                Log.d("Prayer_tag", "getPrayersTime() -> time : $i")
-                val calendar = Calendar.getInstance().apply {
+                calendar.apply {
                     set(Calendar.HOUR_OF_DAY, i.hours)
                     set(Calendar.MINUTE, i.minutes)
                     set(Calendar.SECOND, 0)
                     set(Calendar.MILLISECOND, 0)
                 }
-                if (calendar.timeInMillis >= System.currentTimeMillis()) {
-                    Log.d("Prayer_tag", "if -> time : ${i.hours}")
-                    setRepeatingAlarmExactTime(i.id, i.name, i.hours, i.minutes)
-                } else {
-                    val hours = i.hours + 24
-                    Log.d("Prayer_tag", "else -> time : ${i.hours}")
-                    setRepeatingAlarmExactTime(i.id, i.name, hours, i.minutes)
+
+                if (calendar.timeInMillis < System.currentTimeMillis()) {
+                    calendar.add(Calendar.DAY_OF_YEAR, 1)
                 }
+
+                Log.d("Prayer_tag", "Setting alarm for ${i.name} at ${calendar.time}")
+                setRepeatingAlarmExactTime(i.id, i.name, calendar)
             }
 
             Result.success()
@@ -65,11 +63,11 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
         }
     }
 
-    private fun setRepeatingAlarmExactTime(id: Int, name: String, hours: Int, minutes: Int) {
+    private fun setRepeatingAlarmExactTime(id: Int, name: String, calendar: Calendar) {
         val intent = Intent(applicationContext, PrayersAlertReceiver::class.java)
         intent.putExtra("NAME", name)
         intent.putExtra("ID", id)
-        intent.putExtra("DELAY_TIME", (15 * 60 * 1000))
+        intent.putExtra("DELAY_TIME", (1 * 60 * 1000).toLong())
 
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
@@ -87,22 +85,8 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
             )
         }
 
-        val calendar = Calendar.getInstance().apply {
-            set(Calendar.HOUR_OF_DAY, hours)
-            set(Calendar.MINUTE, minutes)
-            set(Calendar.SECOND, 0)
-            set(Calendar.MILLISECOND, 0)
-        }
-        //Log.d("wwe", "Calendar =>  ${calendar.timeInMillis}")
-//        alarmManager.cancel(pendingIntent) // first cancel alarm then set the new alarm
-//        alarmManager.setExact(
-//            AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//            calendar.timeInMillis,
-//            pendingIntent
-//        )
-
         alarmManager.cancel(pendingIntent)
-        alarmManager.setExactAndAllowWhileIdle(
+        alarmManager.setExact(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             pendingIntent
@@ -122,16 +106,12 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
             PrayersTime(
                 1,
                 "Fajr Time",
-//                10,
-//                10
                 prayerTimes.fajr().hour,
                 prayerTimes.fajr().minute
             ),
             PrayersTime(
                 2,
                 "Dhuhr Time",
-//                15,
-//                26
                 prayerTimes.thuhr().hour,
                 prayerTimes.thuhr().minute
             ),

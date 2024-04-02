@@ -126,8 +126,6 @@ class HomeFragment : Fragment() {
         //MobileAds.initialize(requireContext()) {}
 
         initialize()
-        locationOn()
-        dailyOneTimeRunWorkerTrigger()
     }
 
     private fun locationOn() {
@@ -158,8 +156,10 @@ class HomeFragment : Fragment() {
     private fun initialize() {
         //adShow()
         notificationManager = requireContext().getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        locationOn()
         checkPermission()
         getPrayersTime()
+        dailyOneTimeRunWorkerTrigger()
     }
 
 //    private fun adShow() {
@@ -184,7 +184,6 @@ class HomeFragment : Fragment() {
         } else {
             a.myLocationManager?.initialize()
             dailyOneTimeRunWorkerTrigger()
-
         }
     }
 
@@ -237,8 +236,7 @@ class HomeFragment : Fragment() {
 
     private fun getPrayersTime() {
         val today = SimpleDate(GregorianCalendar())
-        val location =
-            com.azan.astrologicalCalc.Location(prefs.currentLat, prefs.currentLon, +6.0, 0)
+        val location = com.azan.astrologicalCalc.Location(prefs.currentLat, prefs.currentLon, +6.0, 0)
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
         Log.d("showTime", "prayerTimes : $prayerTimes")
@@ -436,12 +434,7 @@ class HomeFragment : Fragment() {
                 .setBackoffCriteria(BackoffPolicy.LINEAR, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS)
                 .build()
 
-//            if (!isWorkerAlreadyRunning()) {
-//            }
             workManager.enqueueUniquePeriodicWork(WORKER_NAME, ExistingPeriodicWorkPolicy.UPDATE, periodicWorkRequest)
-
-            //prefs.workerId = periodicWorkRequest.id
-
 
 
             workManager.getWorkInfoByIdLiveData(periodicWorkRequest.id).observe(viewLifecycleOwner) {
@@ -467,7 +460,7 @@ class HomeFragment : Fragment() {
                 }
             }
         }else{
-            Log.d("Prayer_tag", "else call")
+            Log.d("Prayer_tag", "Notification Policy Access Not Granted")
         }
     }
 
