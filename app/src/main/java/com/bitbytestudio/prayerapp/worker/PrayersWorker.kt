@@ -67,7 +67,7 @@ class PrayersWorker @AssistedInject constructor (@Assisted private val context: 
         val intent = Intent(applicationContext, PrayersAlertReceiver::class.java)
         intent.putExtra("NAME", name)
         intent.putExtra("ID", id)
-        intent.putExtra("DELAY_TIME", (1 * 60 * 1000).toLong())
+        intent.putExtra("DELAY_TIME", (15 * 60 * 1000).toLong())
 
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getBroadcast(
