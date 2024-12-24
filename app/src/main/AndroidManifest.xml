@@ -9,24 +9,23 @@
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
 
-<!--    <uses-permission android:name="android.permission.VIBRATE" />-->
-
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
-        android:name="com.bitbytestudio.prayerapp.PrayersApp"
+        android:name="com.bitbytestudio.autosilentprayerapp.PrayersApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_prayer_icon"
         android:label="@string/app_name"
         android:usesCleartextTraffic="true"
+        android:hardwareAccelerated="true"
         android:roundIcon="@mipmap/ic_prayer_icon_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PrayerApp"
         tools:targetApi="31">
         <activity
-            android:name="com.bitbytestudio.prayerapp.ui.MainActivity"
+            android:name="com.bitbytestudio.autosilentprayerapp.ui.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -34,84 +33,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-<!--        <meta-data-->
-<!--            android:name="com.google.android.gms.ads.APPLICATION_ID"-->
-<!--            android:value="ca-app-pub-3940256099942544~3347511713" />-->
-
-<!--        <activity-->
-<!--            android:name=".widget.WidgetActivity"-->
-<!--            android:exported="true"-->
-<!--            android:fitsSystemWindows="true"-->
-<!--            android:launchMode="singleTop"/>-->
 
         <receiver
-            android:name="com.bitbytestudio.prayerapp.receiver.PrayersAlertReceiver"
+            android:name="com.bitbytestudio.autosilentprayerapp.receiver.PrayersAlertReceiver"
             android:enabled="true"
             android:exported="false">
-<!--            <intent-filter>-->
-<!--                <action android:name="com.bitbytestudio.ALARM_TRIGGER_ACTION" />-->
-<!--            </intent-filter>-->
         </receiver>
 
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
-
-<!--        <receiver-->
-<!--            android:name=".widget.TasbihatWidget"-->
-<!--            android:exported="true"-->
-<!--            android:label="@string/tasbihat_label">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-<!--            </intent-filter>-->
-
-<!--            <meta-data-->
-<!--                android:name="android.appwidget.provider"-->
-<!--                android:resource="@xml/info_for_tasbihat" />-->
-<!--        </receiver>-->
-
-<!--        &lt;!&ndash; Zekr widget &ndash;&gt;-->
-<!--        <receiver-->
-<!--            android:name=".widget.ZekrWidget"-->
-<!--            android:exported="true"-->
-<!--            android:label="@string/zekr_label">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-<!--                <action android:name="android.appwidget.action.WIDGET_BUTTON" />-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />-->
-<!--                <action android:name="android.appwidget.action.ACTION_AUTO_UPDATE_WIDGET" />-->
-<!--                <action android:name="android.intent.action.DATE_CHANGED" />-->
-<!--                <action android:name="android.intent.action.TIME_SET" />-->
-<!--            </intent-filter>-->
-
-<!--            <meta-data-->
-<!--                android:name="android.appwidget.provider"-->
-<!--                android:resource="@xml/info_for_zekr" />-->
-<!--        </receiver>-->
-
-<!--        &lt;!&ndash; Salavat widget &ndash;&gt;-->
-<!--        <receiver-->
-<!--            android:name=".widget.SalavatWidget"-->
-<!--            android:exported="true"-->
-<!--            android:label="@string/salavat_label">-->
-<!--            <intent-filter>-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
-<!--                <action android:name="android.appwidget.action.WIDGET_BUTTON" />-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />-->
-<!--                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />-->
-<!--                <action android:name="android.appwidget.action.ACTION_AUTO_UPDATE_WIDGET" />-->
-<!--                <action android:name="android.intent.action.DATE_CHANGED" />-->
-<!--                <action android:name="android.intent.action.TIME_SET" />-->
-<!--            </intent-filter>-->
-
-<!--            <meta-data-->
-<!--                android:name="android.appwidget.provider"-->
-<!--                android:resource="@xml/info_for_salavat" />-->
-<!--        </receiver>-->
 
     </application>
 

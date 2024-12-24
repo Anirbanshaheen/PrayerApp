@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.bitbytestudio.prayerapp.ui.HomeFragment"
+        android:name="com.bitbytestudio.autosilentprayerapp.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/countFragment"
-        android:name="com.bitbytestudio.prayerapp.ui.CountFragment"
+        android:name="com.bitbytestudio.autosilentprayerapp.ui.CountFragment"
         android:label="fragment_count"
         tools:layout="@layout/fragment_count" />
     <fragment
         android:id="@+id/compassFragment"
-        android:name="com.bitbytestudio.prayerapp.ui.CompassFragment"
+        android:name="com.bitbytestudio.autosilentprayerapp.ui.CompassFragment"
         android:label="fragment_compass"
         tools:layout="@layout/fragment_compass" />
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.bitbytestudio.prayerapp.ui.SettingsFragment"
+        android:name="com.bitbytestudio.autosilentprayerapp.ui.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" />
 </navigation>

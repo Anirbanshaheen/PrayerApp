@@ -6,14 +6,14 @@ plugins {
 }
 
 android {
-    namespace = "com.bitbytestudio.prayerapp"
+    namespace = "com.bitbytestudio.autosilentprayerapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.bitbytestudio.prayerapp"
+        applicationId = "com.bitbytestudio.autosilentprayerapp"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
+        versionCode = 1
         versionName = "version - 1.0"
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -94,12 +94,7 @@ dependencies {
     // Json
     implementation("com.google.code.gson:gson:2.10.1")
 
-    // Ad
-    //implementation("com.google.android.gms:play-services-ads:22.6.0")
-
     // firebase crashlytics
     implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.3")
     implementation("com.google.firebase:firebase-analytics:21.6.1")
-
-    //implementation("com.orhanobut:hawk:2.0.1")
 }
