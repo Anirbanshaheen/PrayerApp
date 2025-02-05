@@ -46,6 +46,7 @@ fun <T> exH(func: () -> T): T? {
     return try {
         func.invoke()
     } catch (e: Exception) {
+        e.printStackTrace()
         null
     }
 }

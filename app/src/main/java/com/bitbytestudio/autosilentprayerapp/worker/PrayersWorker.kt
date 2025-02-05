@@ -16,6 +16,7 @@ import com.azan.astrologicalCalc.SimpleDate
 import com.bitbytestudio.autosilentprayerapp.model.PrayersTime
 import com.bitbytestudio.autosilentprayerapp.prefs.Prefs
 import com.bitbytestudio.autosilentprayerapp.receiver.PrayersAlertReceiver
+import com.bitbytestudio.autosilentprayerapp.ui.DndHandler
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.runBlocking
@@ -24,121 +25,93 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.GregorianCalendar
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltWorker
-class PrayersWorker @AssistedInject constructor (@Assisted private val context: Context, @Assisted private val params: WorkerParameters) :
-    CoroutineWorker(context, params) {
+class PrayersWorker @AssistedInject constructor(
+    @Assisted private val context: Context,
+    @Assisted private val params: WorkerParameters,
+) : CoroutineWorker(context, params) {
 
-    private lateinit var alarmManager: AlarmManager
-    @Inject
-    lateinit var prefs: Prefs
+    companion object{
+        const val ALERT_DELAY_TIME = "ALERT_DELAY_TIME"
+        const val ALERT_NAME = "ALERT_NAME"
+        const val ALERT_ID = "ALERT_ID"
+        const val IS_ENABLE = "IS_ENABLE"
+    }
+
+    @Inject lateinit var prefs: Prefs
 
     override suspend fun doWork(): Result {
-        //prefs = Prefs(context)
         return try {
-            Log.d("Prayer_tag", "doWork() -> Prayers Worker call")
-            alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            val calendar = Calendar.getInstance()
-            for (i in getPrayersTime()) {
-                calendar.apply {
-                    set(Calendar.HOUR_OF_DAY, i.hours)
-                    set(Calendar.MINUTE, i.minutes)
-                    set(Calendar.SECOND, 0)
-                    set(Calendar.MILLISECOND, 0)
-                }
+            Log.d("Prayer_tag", "doWork() -> Prayers Worker called")
 
-                if (calendar.timeInMillis < System.currentTimeMillis()) {
-                    calendar.add(Calendar.DAY_OF_YEAR, 1)
-                }
-
-                Log.d("Prayer_tag", "Setting alarm for ${i.name} at ${calendar.time}")
-                setRepeatingAlarmExactTime(i.id, i.name, calendar)
+            val prayers = getPrayersTime()
+            for (prayer in prayers) {
+                schedulePrayerAlarm(prayer)
             }
 
             Result.success()
         } catch (e: IOException) {
-            Log.d("Prayer_tag", "exception -> ${e.localizedMessage}")
+            Log.e("Prayer_tag", "Exception: ${e.localizedMessage}")
             Result.retry()
         }
     }
 
-    private fun setRepeatingAlarmExactTime(id: Int, name: String, calendar: Calendar) {
-        val intent = Intent(applicationContext, PrayersAlertReceiver::class.java)
-        intent.putExtra("NAME", name)
-        intent.putExtra("ID", id)
-        intent.putExtra("DELAY_TIME", (15 * 60 * 1000).toLong())
+    private fun schedulePrayerAlarm(prayer: PrayersTime) {
+        val alarmManager = applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
-        val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            PendingIntent.getBroadcast(
-                applicationContext,
-                id,
-                intent,
-                PendingIntent.FLAG_IMMUTABLE
-            )
-        } else {
-            PendingIntent.getBroadcast(
-                applicationContext,
-                id,
-                intent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            )
+        val intent = Intent(applicationContext, PrayersAlertReceiver::class.java).apply {
+            putExtra(ALERT_NAME, prayer.name)
+            putExtra(ALERT_ID, prayer.id)
+            putExtra(ALERT_DELAY_TIME, (15 * 60 * 1000L)) //15 minute delay // todo(add user preference delay time)
         }
 
-        alarmManager.cancel(pendingIntent)
-        alarmManager.setExact(
+        val pendingIntent = PendingIntent.getBroadcast(
+            applicationContext,
+            prayer.id,
+            intent,
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val calendar = Calendar.getInstance().apply {
+            set(Calendar.HOUR_OF_DAY, prayer.hours)
+            set(Calendar.MINUTE, prayer.minutes)
+            set(Calendar.SECOND, 0)
+            set(Calendar.MILLISECOND, 0)
+            if (timeInMillis < System.currentTimeMillis()) {
+                add(Calendar.DAY_OF_YEAR, 1) // Move to the next day if time has passed
+            }
+        }
+
+        // Set exact alarm to trigger at prayer time
+        alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             calendar.timeInMillis,
             pendingIntent
         )
-        Log.d("Prayer_tag", "Calendar =>  ${calendar.timeInMillis}")
-        Log.d("Prayer_tag", "final =>  ${formatMilliseconds(calendar.timeInMillis)}")
+
+        Log.d("Prayer_tag", "Alarm set for ${prayer.name} at ${formatMilliseconds(calendar.timeInMillis)}")
     }
 
-    private fun getPrayersTime() = runBlocking {
+    private suspend fun getPrayersTime(): List<PrayersTime> {
         val today = SimpleDate(GregorianCalendar())
         val location = Location(prefs.currentLat, prefs.currentLon, +6.0, 0)
         val azan = Azan(location, Method.KARACHI_HANAF)
         val prayerTimes = azan.getPrayerTimes(today)
-        //val imsaak = azan.getImsaak(today)
 
-        val prayerTimeList = arrayListOf(
-            PrayersTime(
-                1,
-                "Fajr Time",
-                prayerTimes.fajr().hour,
-                prayerTimes.fajr().minute
-            ),
-            PrayersTime(
-                2,
-                "Dhuhr Time",
-                prayerTimes.thuhr().hour,
-                prayerTimes.thuhr().minute
-            ),
-            PrayersTime(
-                3,
-                "Asr Time",
-                prayerTimes.assr().hour,
-                prayerTimes.assr().minute
-            ),
-            PrayersTime(
-                4,
-                "Maghrib Time",
-                prayerTimes.maghrib().hour,
-                prayerTimes.maghrib().minute
-            ),
-            PrayersTime(
-                5,
-                "Isha Time",
-                prayerTimes.ishaa().hour,
-                prayerTimes.ishaa().minute
-            )
+        return listOf(
+            PrayersTime(1, "Fajr", prayerTimes.fajr().hour, prayerTimes.fajr().minute),
+            PrayersTime(2, "Dhuhr", prayerTimes.thuhr().hour, prayerTimes.thuhr().minute),
+            PrayersTime(3, "Asr", prayerTimes.assr().hour, prayerTimes.assr().minute),
+            PrayersTime(4, "Maghrib",17, 55 /*prayerTimes.maghrib().hour, prayerTimes.maghrib().minute*/),
+            PrayersTime(5, "Isha", prayerTimes.ishaa().hour, prayerTimes.ishaa().minute)
         )
-        return@runBlocking prayerTimeList
     }
 
     private fun formatMilliseconds(milliseconds: Long): String {
-        val format = SimpleDateFormat("hh:mm:ss aa")
+        val format = SimpleDateFormat("hh:mm:ss aa", Locale.getDefault())
         return format.format(Date(milliseconds))
     }
 }

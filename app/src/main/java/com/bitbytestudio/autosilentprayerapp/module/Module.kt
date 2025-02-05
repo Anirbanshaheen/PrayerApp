@@ -1,6 +1,7 @@
 package com.bitbytestudio.autosilentprayerapp.module
 
 import android.content.Context
+import com.bitbytestudio.autosilentprayerapp.prefs.DataStorePreference
 import com.bitbytestudio.autosilentprayerapp.prefs.Prefs
 import dagger.Module
 import dagger.Provides
@@ -15,4 +16,9 @@ class Module {
     @Provides
     @Singleton
     fun providerPrefs(@ApplicationContext context: Context) = Prefs(context)
+
+    @Provides
+    @Singleton
+    fun dataStorePreferenceProvider(@ApplicationContext context: Context) = DataStorePreference(context)
+
 }

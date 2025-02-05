@@ -17,163 +17,199 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/settingsTB">
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/settingsTB"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/privacyPolicyCV"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:selectableItemBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="4dp">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/privacyPolicyLayout"
+            <!-- DND Mode Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/dndCV"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:clickable="false"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_card"
-                    android:text="@string/privacy_policy"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/languageCv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:selectableItemBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="4dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/languageLayout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
-
-                <TextView
-                    android:id="@+id/languageTitleTv"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_card"
-                    android:text="@string/language"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintTop_toBottomOf="@id/languageTitleTv">
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/englishBtn"
-                        android:layout_width="0dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="English"
+                        android:fontFamily="@font/font_card"
+                        android:text="@string/dnd_mood"
                         android:textColor="@color/black"
-                        app:backgroundTint="@color/dim_green"
-                        app:cornerRadius="20dp" />
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/banglaBtn"
-                        android:layout_width="0dp"
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/dndSwitch"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_weight="1"
-                        android:text="Bangla"
-                        app:backgroundTint="@color/dark_green"
-                        app:cornerRadius="20dp" />
+                        android:checked="true"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/arabicBtn"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_weight="1"
-                        android:text="Arabic"
-                        app:backgroundTint="@color/dark_green"
-                        app:cornerRadius="20dp"
-                        app:layout_constraintVertical_chainStyle="spread" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-        </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/aboutCV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="4dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:foreground="?android:selectableItemBackground"
-            app:cardCornerRadius="6dp"
-            app:cardElevation="4dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/aboutLayout"
+            <!-- Language Selection Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/languageCv"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:padding="16dp">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/font_card"
-                    android:text="@string/about"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/languageTitleTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_card"
+                        android:text="@string/language"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-        </com.google.android.material.card.MaterialCardView>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal"
+                        app:layout_constraintTop_toBottomOf="@id/languageTitleTv">
 
-    </LinearLayout>
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/englishBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="English"
+                            android:textSize="@dimen/_10ssp"
+                            android:textColor="@color/black"
+                            app:backgroundTint="@color/dim_green"
+                            app:cornerRadius="20dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/banglaBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="Bangla"
+                            android:textSize="@dimen/_10ssp"
+                            app:backgroundTint="@color/dark_green"
+                            app:cornerRadius="20dp" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/arabicBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Arabic"
+                            android:textSize="@dimen/_10ssp"
+                            app:backgroundTint="@color/dark_green"
+                            app:cornerRadius="20dp" />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Privacy Policy Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/privacyPolicyCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_card"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- About Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/aboutCV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?android:selectableItemBackground"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/font_card"
+                        android:text="@string/about"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
 
     <WebView
         android:id="@+id/webView"

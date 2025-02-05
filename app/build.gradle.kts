@@ -7,12 +7,12 @@ plugins {
 
 android {
     namespace = "com.bitbytestudio.autosilentprayerapp"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.bitbytestudio.autosilentprayerapp"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "version - 1.0"
         multiDexEnabled = true
@@ -54,6 +54,7 @@ dependencies {
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.google.android.gms:play-services-location:21.2.0")
+    implementation("androidx.activity:activity:1.10.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.1.0-alpha3")
@@ -97,4 +98,10 @@ dependencies {
     // firebase crashlytics
     implementation("com.google.firebase:firebase-crashlytics-ndk:18.6.3")
     implementation("com.google.firebase:firebase-analytics:21.6.1")
+
+    //datastore
+    implementation("androidx.datastore:datastore-preferences:1.1.2")
+
+    //ssp
+    implementation("com.intuit.ssp:ssp-android:1.1.1")
 }

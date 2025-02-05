@@ -13,6 +13,9 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.bitbytestudio.autosilentprayerapp.R
 import com.bitbytestudio.autosilentprayerapp.receiver.PrayersAlertReceiver
+import com.bitbytestudio.autosilentprayerapp.worker.PrayersWorker.Companion.ALERT_ID
+import com.bitbytestudio.autosilentprayerapp.worker.PrayersWorker.Companion.ALERT_NAME
+import com.bitbytestudio.autosilentprayerapp.worker.PrayersWorker.Companion.IS_ENABLE
 
 class DndHandler {
 
@@ -35,11 +38,11 @@ class DndHandler {
     }
 
     fun sendNotification(context: Context, i: Intent) {
-        val subTitle = if (i.getBooleanExtra("IS_ENABLE", false)) "Your phone is going to DND mode now." else "Back to general mode Now."
+        val subTitle = if (i.getBooleanExtra(IS_ENABLE, false)) "Your phone is going to DND mode now." else "Back to general mode Now."
 
         Log.d("DND_DISABLE_TAG", "subTitle -> $subTitle")
 
-        val id = i.getIntExtra("ID", 1) ?:1
+        val id = i.getIntExtra(ALERT_ID, 1) ?:1
         val intent = Intent(context, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.putExtra(PrayersAlertReceiver.NOTIFICATION_ID, id)
@@ -47,7 +50,7 @@ class DndHandler {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 
-        val titleNotification = i.getStringExtra("NAME")
+        val titleNotification = i.getStringExtra(ALERT_NAME)
         val pendingIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_MUTABLE)
         } else {

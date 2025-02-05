@@ -67,5 +67,6 @@
                         http://cafebazaar.ir/app/?id=ir.rezarasuolzadeh.zekraneh
     </string>
     <string name="zekr_has_been_reset">ذکر روز بازنشانی شد</string>
+    <string name="dnd_mood">Auto Silent Mode</string>
 
 </resources>

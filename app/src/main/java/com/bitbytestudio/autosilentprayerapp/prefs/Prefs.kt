@@ -52,7 +52,7 @@ class Prefs @Inject constructor(@ApplicationContext private val context: Context
 
     var currentLat: Double
         get() {
-            return (instance.getFloat(::currentLat.name, 0f)).toDouble()
+            return (instance.getFloat(::currentLat.name, 23.8103f)).toDouble()
         }
         set(value) {
             instance.edit().putFloat(::currentLat.name, value.toFloat()).apply()
@@ -60,7 +60,7 @@ class Prefs @Inject constructor(@ApplicationContext private val context: Context
 
     var currentLon: Double
         get() {
-            return (instance.getFloat(::currentLon.name, 0f)).toDouble()
+            return (instance.getFloat(::currentLon.name, 90.4125f)).toDouble()
         }
         set(value) {
             instance.edit().putFloat(::currentLon.name, value.toFloat()).apply()
