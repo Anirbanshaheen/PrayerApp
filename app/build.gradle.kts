@@ -13,8 +13,8 @@ android {
         applicationId = "com.bitbytestudio.autosilentprayerapp"
         minSdk = 24
         targetSdk = 35
-        versionCode = 2 // previous -> 1
-        versionName = "v1.1" // previous -> 1.0
+        versionCode = 3 // previous -> 2
+        versionName = "v1.2" // previous -> 1.1
         multiDexEnabled = true
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
