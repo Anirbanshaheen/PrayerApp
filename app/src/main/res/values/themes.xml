@@ -1,10 +1,24 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="SplashTheme" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/splash_screen_background</item>  <!-- Optional: Custom background for splash screen -->
+        <item name="android:windowBackground">@drawable/splash_screen_background</item>
+        <item name="android:statusBarColor">@color/status_color</item>
     </style>
 
     <style name="Theme.PrayerApp" parent="Theme.Material3.Light.NoActionBar">
+<!--        &lt;!&ndash; Primary color &ndash;&gt;-->
+<!--        <item name="colorPrimary">@color/primary</item>-->
+<!--        <item name="colorOnPrimary">@color/on_primary</item>-->
 
+<!--        &lt;!&ndash; Secondary color &ndash;&gt;-->
+<!--        <item name="colorSecondary">@color/secondary</item>-->
+<!--        <item name="colorOnSecondary">@color/on_secondary</item>-->
+
+<!--        &lt;!&ndash; Surface color &ndash;&gt;-->
+<!--        <item name="colorSurface">@color/surface</item>-->
+<!--        <item name="colorOnSurface">@color/on_surface</item>-->
+
+<!--        &lt;!&ndash; Status bar color &ndash;&gt;-->
+<!--        <item name="android:statusBarColor">@color/primary</item>-->
     </style>
 
     <style name="AboutBottomSheetFragment" parent="Theme.Design.Light.BottomSheetDialog">
